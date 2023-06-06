@@ -29,6 +29,7 @@
 
 package demo.x.devapi;
 
+////2の2
 import com.mysql.cj.xdevapi.Collection;
 import com.mysql.cj.xdevapi.DbDoc;
 import com.mysql.cj.xdevapi.DbDocImpl;
