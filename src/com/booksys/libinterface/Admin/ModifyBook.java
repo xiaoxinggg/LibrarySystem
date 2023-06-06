@@ -113,8 +113,8 @@ public class ModifyBook extends JFrame {
             }
         });
         jButton2.addActionListener(e -> {
-//            dispose();
-            new ModifyBook(id, x);
+            dispose();
+          //  new ModifyBook(id, x);
         });
     }
 }
