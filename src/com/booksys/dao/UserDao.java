@@ -307,10 +307,53 @@ public class UserDao implements UserService {
         return null;
     }
 
+    //用户修改密码
+    /*
+    * 参数：用户，新密码
+    * */
+    public boolean modifyPassword(NormalUser normalUser, String newPassword) {
+        Connection con = null;
+        PreparedStatement pstmt = null;
+        ResultSet resultSet = null;
+        UserDao userDao = new UserDao();
+        try {
+            con = DbUtil.getConnection();
+            String sql = "update normaluser set password=? where userName=? and password=?";
+            pstmt = con.prepareStatement(sql);
+            pstmt.setString(1, newPassword);
+            pstmt.setString(2, normalUser.getUserName());
+            pstmt.setString(3, normalUser.getPassword());
+            int ret = pstmt.executeUpdate();
+            if (ret != 1) {
+                return false;
+            }
+            return true;
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            if (resultSet != null) {
+                try {
+                    con.close();
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
+            }
+            if (pstmt != null) {
+                try {
+                    pstmt.close();
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+        return false;
+    }
+
 //    public static void main(String[] args) {
 //        NormalUser user = new NormalUser();
-//        user.setUserName("dll");
-//        user.setPassword("123456");
+//        user.setUserName("aaa");
+//        user.setPassword("2233");
+//        new UserDao().modifyPassword(user, "123456");
 //        new UserDao().showUserInfo(user);
 //    }
 }
