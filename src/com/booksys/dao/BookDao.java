@@ -1,5 +1,6 @@
 package com.booksys.dao;
 
+import com.booksys.libinterface.User.BorrowBook;
 import com.booksys.pojo.Book;
 import com.booksys.pojo.BookRecord;
 import com.booksys.pojo.NormalUser;
@@ -74,8 +75,7 @@ public class BookDao implements BookService {
     }
 
     //模糊查询
-    public List<Book> selectByPartOfName(String bookName) {
-        List<Book> list = new ArrayList<>();
+    public ResultSet selectByPartOfName(String bookName) {
         Connection con = null;
         PreparedStatement pstmt = null;
         ResultSet resultSet = null;
@@ -85,23 +85,14 @@ public class BookDao implements BookService {
             pstmt = con.prepareStatement(sql);
             pstmt.setString(1, "%"+ bookName + "%");
             resultSet = pstmt.executeQuery();
-            while (resultSet.next()) {
-                Book book = new Book();
-                book.setId(resultSet.getInt("id"));
-                book.setIsbn(resultSet.getInt("isbn"));
-                book.setBookName(resultSet.getString("BookName"));
-                book.setAuthor(resultSet.getString("author"));
-                book.setPrice(resultSet.getInt("price"));
-                book.setNum(resultSet.getInt("num"));
-                list.add(book);
-            }
-            System.out.println(list);
+            System.out.println(resultSet);
+            return resultSet;
         } catch (SQLException e) {
             e.printStackTrace();
         } finally {
             DbUtil.close(resultSet, pstmt, con);
         }
-        return list;
+        return null;
     }
 
     //4.删除书籍

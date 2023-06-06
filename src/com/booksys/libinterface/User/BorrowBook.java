@@ -3,6 +3,8 @@ package com.booksys.libinterface.User;
 import com.booksys.dao.BookDao;
 import com.booksys.dao.BorrowerRecordDao;
 import com.booksys.dao.RecordDao;
+import com.booksys.pojo.NormalUser;
+import com.booksys.util.DbUtil;
 import com.booksys.util.MyDialogDemo;
 import com.booksys.pojo.BookRecord;
 import com.booksys.pojo.BorrowRecord;
@@ -153,20 +155,20 @@ public class BorrowBook extends JFrame {
         setDefaultCloseOperation(DISPOSE_ON_CLOSE);
     }
 
-//    public static void main(String[] args) {
-//        Connection con = null;
-//        PreparedStatement pstmt = null;
-//        ResultSet resultSet = null;
-//        try {
-//            con=DbUtil.getConnection();
-//            String sql="select * from book";
-//            pstmt = con.prepareStatement(sql);
-//            resultSet=pstmt.executeQuery();
-//            new BorrowBook(resultSet, );
-//        } catch (SQLException e) {
-//            e.printStackTrace();
-//        }finally {
-//            DbUtil.close(resultSet,pstmt,con);
-//        }
-//    }
+    public static void main(String[] args) {
+        Connection con = null;
+        PreparedStatement pstmt = null;
+        ResultSet resultSet = null;
+        try {
+            con= DbUtil.getConnection();
+            String sql="select * from book";
+            pstmt = con.prepareStatement(sql);
+            resultSet=pstmt.executeQuery();
+            new BorrowBook(resultSet, new NormalUser());
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }finally {
+            DbUtil.close(resultSet,pstmt,con);
+        }
+    }
 }
