@@ -73,6 +73,37 @@ public class BookDao implements BookService {
         return list;
     }
 
+    //模糊查询
+    public List<Book> selectByPartOfName(String bookName) {
+        List<Book> list = new ArrayList<>();
+        Connection con = null;
+        PreparedStatement pstmt = null;
+        ResultSet resultSet = null;
+        try {
+            con = DbUtil.getConnection();
+            String sql = "select * from book where bookName like ?";
+            pstmt = con.prepareStatement(sql);
+            pstmt.setString(1, "%"+ bookName + "%");
+            resultSet = pstmt.executeQuery();
+            while (resultSet.next()) {
+                Book book = new Book();
+                book.setId(resultSet.getInt("id"));
+                book.setIsbn(resultSet.getInt("isbn"));
+                book.setBookName(resultSet.getString("BookName"));
+                book.setAuthor(resultSet.getString("author"));
+                book.setPrice(resultSet.getInt("price"));
+                book.setNum(resultSet.getInt("num"));
+                list.add(book);
+            }
+            System.out.println(list);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            DbUtil.close(resultSet, pstmt, con);
+        }
+        return list;
+    }
+
     //4.删除书籍
     public boolean deleteBook(String bookName) {
         Connection con = null;
@@ -363,8 +394,8 @@ public class BookDao implements BookService {
         return false;
     }
 
-    public static void main(String[] args) {
-        BookDao bookDao = new BookDao();
-        bookDao.modifyNum(16, 15);
-    }
+//    public static void main(String[] args) {
+//        BookDao bookDao = new BookDao();
+//        bookDao.modifyNum(16, 15);
+//    }
 }
