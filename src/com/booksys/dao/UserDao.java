@@ -156,10 +156,6 @@ public class UserDao implements UserService {
         }
     }
 
-    public static void main(String[] args) {
-        new UserDao().addUser(new NormalUser());
-    }
-
     //是否有图书快要逾期
     public ArrayList<BookRecord> isOverDue(NormalUser normalUser) {
         Connection con = null;
@@ -280,4 +276,46 @@ public class UserDao implements UserService {
         }
         return -1;
     }
+
+    //显示用户基本信息
+    public NormalUser showUserInfo(NormalUser normalUser) {
+        Connection con = null;
+        PreparedStatement pstmt=null;
+        ResultSet resultSet = null;
+        NormalUser user = new NormalUser();
+        try {
+            con=DbUtil.getConnection();
+            String sql="select* from normaluser where userName=? and password=?";
+            pstmt = con.prepareStatement(sql);
+            pstmt.setString(1, normalUser.getUserName());
+            pstmt.setString(2, normalUser.getPassword());
+            resultSet = pstmt.executeQuery();
+            while(resultSet.next()){
+                user.setId(resultSet.getInt("id"));
+                user.setUserName(resultSet.getString("userName"));
+                user.setPassword(resultSet.getString("password"));
+                user.setBalance(resultSet.getDouble("balance"));
+                user.setTheorySum(resultSet.getInt("theorySum"));
+                user.setRealSum(resultSet.getInt("realSum"));
+                System.out.println(user.getUserName());
+                System.out.println(user.getPassword());
+                System.out.println(user.getBalance());
+                System.out.println(user.getTheorySum());
+                System.out.println(user.getRealSum());
+                return user;
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }finally {
+            DbUtil.close(resultSet,pstmt,con);
+        }
+        return null;
+    }
+
+//    public static void main(String[] args) {
+//        NormalUser user = new NormalUser();
+//        user.setUserName("dll");
+//        user.setPassword("123456");
+//        new UserDao().showUserInfo(user);
+//    }
 }

@@ -139,6 +139,9 @@ public class BorrowBook extends JFrame {
                                 throw new RuntimeException(ex);
                             }
                             MyDialogDemo myDialogDemo = flag ? new MyDialogDemo("借阅成功") : new MyDialogDemo("借阅失败");
+                            if(flag) {
+
+                            }
                         }
                     }
                 } catch (Exception ex) {

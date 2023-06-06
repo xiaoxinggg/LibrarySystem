@@ -116,6 +116,16 @@ END//
 DELIMITER ;
 
 /*触发器: 删除user信息的时候也删除借书记录*/
+DELIMITER //
+CREATE TRIGGER delete_related_user
+    AFTER DELETE
+    ON normaluser
+    FOR EACH ROW
+BEGIN
+    DELETE FROM bookrecord WHERE bookrecord.borrower = OLD.userName;
+    DELETE FROM borrowrecord WHERE borrowrecord.bookName = OLD.userName;
+END//
+DELIMITER ;
 
 /*!40101 SET SQL_MODE=@OLD_SQL_MODE */;
 /*!40014 SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS */;
