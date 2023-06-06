@@ -3,6 +3,7 @@ package com.booksys.libinterface.User;
 import com.booksys.dao.BookDao;
 import com.booksys.dao.BorrowerRecordDao;
 import com.booksys.dao.RecordDao;
+import com.booksys.dao.UserDao;
 import com.booksys.pojo.NormalUser;
 import com.booksys.util.DbUtil;
 import com.booksys.util.MyDialogDemo;
@@ -59,6 +60,7 @@ public class BorrowBook extends JFrame {
                 rowData1[i][5] = num;
             i++;
         }
+
         // 创建一个表格，指定 表头 和 所有行数据
         JTable table = new JTable(rowData1, columnNames);
 
@@ -96,6 +98,34 @@ public class BorrowBook extends JFrame {
         button1.setBounds(450, 700, 80, 30);
         button1.setFont(font);
         container.add(button1);
+
+        JButton button2 = new JButton("查询");
+        button2.setBounds(10, 10, 80, 30);
+        button2.setFont(font);
+        container.add(button2);
+
+        JTextField jTextField = new JTextField();
+        jTextField.setBounds(100, 10, 200, 28);
+        container.add(jTextField);
+
+        result.close();
+        button2.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                String str = jTextField.getText();
+                System.out.println(str);
+                if(!str.isEmpty()) {
+                    BookDao dao = new BookDao();
+                    try {
+                        dispose();
+                        new BorrowBook(dao.selectByPartOfName(str), user);
+                    } catch (SQLException ex) {
+                        ex.printStackTrace();
+                    }
+                }
+            }
+        });
+
 
         //设置监听
         button1.addActionListener(new ActionListener() {
@@ -167,7 +197,10 @@ public class BorrowBook extends JFrame {
             String sql="select * from book";
             pstmt = con.prepareStatement(sql);
             resultSet=pstmt.executeQuery();
-            new BorrowBook(resultSet, new NormalUser());
+            NormalUser normalUser = new NormalUser();
+            normalUser.setUserName("123");
+            normalUser.setPassword("123");
+            new BorrowBook(resultSet, normalUser);
         } catch (SQLException e) {
             e.printStackTrace();
         }finally {

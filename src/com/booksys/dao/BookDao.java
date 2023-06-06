@@ -83,17 +83,18 @@ public class BookDao implements BookService {
             con = DbUtil.getConnection();
             String sql = "select * from book where bookName like ?";
             pstmt = con.prepareStatement(sql);
-            pstmt.setString(1, "%"+ bookName + "%");
+            pstmt.setString(1, "%" + bookName + "%");
             resultSet = pstmt.executeQuery();
             System.out.println(resultSet);
             return resultSet;
         } catch (SQLException e) {
             e.printStackTrace();
         } finally {
-            DbUtil.close(resultSet, pstmt, con);
+            // 不关闭连接和语句对象
         }
         return null;
     }
+
 
     //4.删除书籍
     public boolean deleteBook(String bookName) {

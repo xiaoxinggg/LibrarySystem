@@ -117,6 +117,7 @@ public class UserLogin extends JFrame {
                 System.exit(0);
             }
             if (dao.login(user) == null) {
+                System.out.println("134");
                 JOptionPane.showMessageDialog(getContentPane(), "输入信息不能为空！");
                 dispose();
                 new UserLogin();
