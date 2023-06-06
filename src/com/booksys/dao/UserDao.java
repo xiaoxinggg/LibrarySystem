@@ -297,11 +297,6 @@ public class UserDao implements UserService {
                 user.setBalance(resultSet.getDouble("balance"));
                 user.setTheorySum(resultSet.getInt("theorySum"));
                 user.setRealSum(resultSet.getInt("realSum"));
-                System.out.println(user.getUserName());
-                System.out.println(user.getPassword());
-                System.out.println(user.getBalance());
-                System.out.println(user.getTheorySum());
-                System.out.println(user.getRealSum());
                 return user;
             }
         } catch (SQLException e) {
