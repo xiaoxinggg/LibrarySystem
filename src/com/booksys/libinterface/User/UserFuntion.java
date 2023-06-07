@@ -18,6 +18,8 @@ public class UserFuntion extends JFrame {
     static JButton jButton2; //还书
     static JButton jButton3; //借书
     static JButton jButton4; //查自己借书单
+    static JButton jButton5; //查自己借书单
+
 //    static JButton jButton6; //查书库
 
     public UserFuntion(NormalUser normalUser) {
@@ -30,6 +32,8 @@ public class UserFuntion extends JFrame {
         button2Set();
         button3Set();
         button4Set();
+        button5Set();
+
 //        button6Set();
         label1Set();
         setActionListen(normalUser);
@@ -77,6 +81,12 @@ public class UserFuntion extends JFrame {
         jPanel.add(jButton4);
     }
 
+    public void button5Set() {
+        jButton5 = new JButton("查询个人信息");
+        jButton5.setBounds(185, 480, 120, 40);
+        jPanel.add(jButton5);
+    }
+
     public void setActionListen(NormalUser normalUser) {
         jButton1.addActionListener(e -> { //返回
             dispose();
@@ -121,6 +131,26 @@ public class UserFuntion extends JFrame {
          //   dispose();
             new UserRecharge(normalUser);
         });
+        jButton5.addActionListener(e -> {
+            //  dispose();
+            Connection con = null;
+            PreparedStatement pstmt = null;
+            ResultSet resultSet = null;
+            try {
+                con = DbUtil.getConnection();
+                String sql = "select * from normaluser where userName=?";
+                pstmt = con.prepareStatement(sql);
+                pstmt.setString(1, normalUser.getUserName());
+                resultSet = pstmt.executeQuery();
+                System.out.println("34234");
+                new UserMessage(resultSet, normalUser);
+            } catch (SQLException sqe) {
+                sqe.printStackTrace();
+            } finally {
+                DbUtil.close(resultSet, pstmt, con);
+            }
+        });
+
 //        jButton6.addActionListener(e -> { //显示所有书籍
 //        //    dispose();
 //            Connection con = null;
