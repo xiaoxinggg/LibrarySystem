@@ -7,7 +7,7 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-//123456
+//123456hj
 public class Main extends JFrame {
     static JPanel jPanel = new JPanel();
     static JLabel jLabel1 = new JLabel();//标题 : 欢迎来到图书管理系统
