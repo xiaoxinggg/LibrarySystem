@@ -1,7 +1,6 @@
 package com.booksys.service.impl;
 
 import com.booksys.pojo.Book;
-import com.booksys.pojo.BookRecord;
 import com.booksys.pojo.NormalUser;
 
 import java.util.List;
@@ -17,8 +16,6 @@ public interface BookService {
 
     //5.借书
     boolean borrowBook(String bookName);
-
-    boolean returnBook(NormalUser normalUser, BookRecord bookRecord, String bookName);
 
     boolean modifyBookName(int id, String bookName);
 

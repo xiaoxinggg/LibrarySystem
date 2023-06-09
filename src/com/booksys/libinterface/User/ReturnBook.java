@@ -2,7 +2,7 @@ package com.booksys.libinterface.User;
 
 import com.booksys.dao.BookDao;
 import com.booksys.dao.BorrowerRecordDao;
-import com.booksys.dao.RecordDao;
+import com.booksys.util.DbUtil;
 import com.booksys.util.MyDialogDemo;
 import com.booksys.pojo.*;
 //import com.booksys.util.JudgeOfDelay;
@@ -40,10 +40,10 @@ public class ReturnBook extends JFrame {
         int cnt = 1;
         while (result.next()) {
             //获取信息
-            int id = result.getInt("id");
+            int bookId = result.getInt("id");
             String bookName = result.getString("bookName");
             String borrower = result.getString("borrower");
-            Timestamp date = result.getTimestamp("date");
+            Timestamp date = result.getTimestamp("borrowTime");
 
             //放入表格数组中
             rowData1[i][0] = cnt;
@@ -119,25 +119,14 @@ public class ReturnBook extends JFrame {
                     if (index >= i) {
                         new MyDialogDemo("请选中相应行!");
                     } else {
-                        //判断书籍是否已被借出
-//                        if ("无".equals(rowData1[index][5])) {
-//                            new MyDialogDemo("该书已被借完！");
-//                        } else {
                         //书籍被借出, 执行借书的操作,更新数据库中借阅书籍的状态
                         BookDao bookDao = new BookDao();
-                        RecordDao recordDao = new RecordDao();
-                        BookRecord bookRecord;
                         BorrowerRecordDao borrowerRecordDao = new BorrowerRecordDao();
-//                            LocalDate localDate = LocalDate.now();
                         try {
-                            //构造一个 有书名和借阅者 的结束记录
-                            bookRecord = recordDao.selectByBookRecord((String) rowData1[index][1], normalUser.getUserName());
-//                                System.out.println(bookRecord1.getBookName());
-//                                System.out.println(bookRecord1.getBorrower());
-//                                System.out.println(bookRecord1.getDate());
+                            //构造一个 有书名和借阅者 的借书记录
                             //改变 bookrecored1 书籍的状态
-                            flag = bookDao.returnBook(normalUser, bookRecord, (String) rowData1[index][1]);
-                            recordDao.deleteRecord(normalUser, bookRecord);
+//                            flag = bookDao.returnBook(normalUser, borrowRecord, (String) rowData1[index][1]);
+                            flag = bookDao.returnBook((Integer) rowData1[index][0], normalUser.getId());
                             borrowerRecordDao.modifyBorrowerRecord((String) rowData1[index][1], normalUser.getUserName());
                             System.out.println((String) rowData1[index][1]);
                         } catch (Exception ex) {
@@ -174,8 +163,8 @@ public class ReturnBook extends JFrame {
 //        PreparedStatement pstmt = null;
 //        ResultSet resultSet = null;
 //        try {
-//            con=DbUtil.getConnection();
-//            String sql="select * from book";
+//            con= DbUtil.getConnection();
+//            String sql= "select * from book";
 //            pstmt = con.prepareStatement(sql);
 //            resultSet=pstmt.executeQuery();
 //            new ReturnBook(resultSet, new UnderGraduate());

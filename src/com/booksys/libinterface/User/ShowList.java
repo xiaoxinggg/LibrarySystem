@@ -1,8 +1,6 @@
 package com.booksys.libinterface.User;
 import com.booksys.dao.BookDao;
-import com.booksys.dao.RecordDao;
 import com.booksys.util.MyDialogDemo;
-import com.booksys.pojo.BookRecord;
 import com.booksys.pojo.User;
 
 import javax.swing.*;
@@ -106,23 +104,6 @@ public class ShowList extends JFrame{
                         //判断书籍是否已被借出
                         if ("无".equals(rowData1[index][5])) {
                             new MyDialogDemo("该书已被借完！");
-                        } else {
-                            //书籍被借出, 执行借书的操作,更新数据库中借阅书籍的状态(书库和借阅表)
-                            BookDao bookDao = new BookDao();
-                            RecordDao recordDao = new RecordDao();
-                            BookRecord bookRecord = new BookRecord();
-                            try {
-                                flag = bookDao.borrowBook((String)rowData1[index][1]);
-                                bookRecord.setBookName((String)rowData1[index][1]);
-                                bookRecord.setBorrower(user.getUserName());
-                                Timestamp t = new Timestamp(new Date().getTime());
-                                bookRecord.setDate(t);
-                                recordDao.addRecord(bookRecord);
-//                            System.out.println((String)rowData1[index][1]);
-                            } catch (Exception ex) {
-                                throw new RuntimeException(ex);
-                            }
-                            MyDialogDemo myDialogDemo = flag ? new MyDialogDemo("借阅成功") : new MyDialogDemo("借阅失败");
                         }
                     }
                 } catch (Exception ex) {

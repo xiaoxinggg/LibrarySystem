@@ -167,13 +167,11 @@ public class AdminFuntion extends JFrame {
                 pstmt = con.prepareStatement(sql);
                 resultSet = pstmt.executeQuery();
                 new ShowList(resultSet, user);
-//            new ShowList(user);
             } catch (SQLException esp) {
                 esp.printStackTrace();
             } finally {
                 DbUtil.close(resultSet, pstmt, con);
             }
-          //  new show();
         });
     }
 

@@ -1,9 +1,7 @@
 package com.booksys.service.impl;
 
-import com.booksys.pojo.Admin;
-import com.booksys.pojo.BookRecord;
-import com.booksys.pojo.NormalUser;
-import com.booksys.pojo.User;
+import com.booksys.pojo.*;
+
 import java.util.ArrayList;
 
 public interface UserService {
@@ -20,10 +18,10 @@ public interface UserService {
     boolean addUser(User user);
 
     //是否有图书快要逾期
-    ArrayList<BookRecord> isOverDue(NormalUser normalUser);
+    ArrayList<BorrowRecord> isOverDue(NormalUser normalUser);
 
     //交罚款
-    boolean PayFine(NormalUser normalUser, BookRecord bookRecord);
+    boolean PayFine(NormalUser normalUser, BorrowRecord bookRecord);
 
     //充值
     boolean Charge(NormalUser normalUser, double money);

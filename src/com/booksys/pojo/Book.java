@@ -1,5 +1,7 @@
 package com.booksys.pojo;
 
+import com.oracle.webservices.internal.api.databinding.DatabindingMode;
+
 public class Book {
     private int id;
     private String bookName; //书名
@@ -7,8 +9,7 @@ public class Book {
     private String author; // 作者
     private double price; // 图书价格
     private int num; //书的数量
-    private char site;
-
+    private int toWareHorse;
 
     public int getId() {
         return id;
@@ -58,12 +59,12 @@ public class Book {
         this.num = num;
     }
 
-    public char getSite() {
-        return site;
+    public int getToWareHorse() {
+        return toWareHorse;
     }
 
-    public void setSite(char site) {
-        this.site = site;
+    public void setToWareHorse(int toWareHorse) {
+        this.toWareHorse = toWareHorse;
     }
 
     @Override
@@ -75,7 +76,7 @@ public class Book {
                 ", author='" + author + '\'' +
                 ", price=" + price +
                 ", num=" + num +
-                ", site=" + site +
+                ", site=" + toWareHorse +
                 '}';
     }
 }

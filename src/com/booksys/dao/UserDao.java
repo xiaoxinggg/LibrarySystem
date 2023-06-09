@@ -158,11 +158,11 @@ public class UserDao implements UserService {
     }
 
     //是否有图书快要逾期
-    public ArrayList<BookRecord> isOverDue(NormalUser normalUser) {
+    public ArrayList<BorrowRecord> isOverDue(NormalUser normalUser) {
         Connection con = null;
         PreparedStatement pstmt = null;
         ResultSet resultSet = null;
-        ArrayList<BookRecord> list = new ArrayList<>();
+        ArrayList<BorrowRecord> list = new ArrayList<>();
         try {
             con = DbUtil.getConnection();
             String sql = "select* from bookrecord where borrower=?";
@@ -170,13 +170,13 @@ public class UserDao implements UserService {
             pstmt.setString(1, normalUser.getUserName());
             resultSet = pstmt.executeQuery();
             while (resultSet.next()) {
-                BookRecord bookRecord = new BookRecord();
+                BorrowRecord bookRecord = new BorrowRecord();
                 bookRecord.setId(resultSet.getInt("id"));
                 bookRecord.setBookName(resultSet.getString("bookName"));
                 bookRecord.setBorrower(resultSet.getString("borrower"));
-                bookRecord.setDate(resultSet.getTimestamp("date"));
+                bookRecord.setBorrowerTime(resultSet.getTimestamp("date"));
                 //没有逾期且返回的天数小于等于7
-                if (!JudgeOfDelay.isExceedTime(bookRecord.getDate().getTime()) && Remind.remind(bookRecord.getDate().getTime())<=7)
+                if (!JudgeOfDelay.isExceedTime(bookRecord.getBorrowerTime().getTime()) && Remind.remind(bookRecord.getBorrowerTime().getTime())<=7)
                     list.add(bookRecord);
             }
             return list;
@@ -202,8 +202,8 @@ public class UserDao implements UserService {
     }
 
     //交罚款
-    public boolean PayFine(NormalUser normalUser, BookRecord bookRecord) {
-        double fine = Remind.overDays(bookRecord.getDate().getTime())*0.1;
+    public boolean PayFine(NormalUser normalUser, BorrowRecord bookRecord) {
+        double fine = Remind.overDays(bookRecord.getBorrowerTime().getTime())*0.1;
         double balance = new UserDao().getBalanceSql(normalUser)-fine;
         if(balance<0)
             return false;

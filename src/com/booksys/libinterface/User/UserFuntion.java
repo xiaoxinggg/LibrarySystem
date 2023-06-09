@@ -99,9 +99,9 @@ public class UserFuntion extends JFrame {
             ResultSet resultSet = null;
             try {
                 con = DbUtil.getConnection();
-                String sql = "select * from bookrecord where borrower = ?";
+                String sql = "select * from borrowrecord where borrowerId = ?";
                 pstmt = con.prepareStatement(sql);
-                pstmt.setString(1, normalUser.getUserName());
+                pstmt.setInt(1, normalUser.getId());
                 resultSet = pstmt.executeQuery();
                 new ReturnBook(resultSet, normalUser);
             } catch (SQLException esp) {

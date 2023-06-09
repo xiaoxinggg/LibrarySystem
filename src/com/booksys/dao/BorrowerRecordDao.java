@@ -19,7 +19,7 @@ public class BorrowerRecordDao {
         PreparedStatement pstmt = null;
         try {
             con = DbUtil.getConnection();
-            String sql = "insert into borrowrecord values(null,?,?,?,null)";
+            String sql = "insert into borrowrecord values(null,?,?,?,null,0)";
             pstmt = con.prepareStatement(sql);
             pstmt.setString(1, borrowRecord.getBookName());
             pstmt.setString(2, borrowRecord.getBorrower());

@@ -2,7 +2,7 @@ package com.booksys.libinterface.User;
 
 import com.booksys.libinterface.Inint;
 import com.booksys.dao.UserDao;
-import com.booksys.pojo.BookRecord;
+import com.booksys.pojo.BorrowRecord;
 import com.booksys.pojo.NormalUser;
 import com.booksys.util.DbUtil;
 
@@ -127,7 +127,7 @@ public class UserLogin extends JFrame {
                 if (dao.isOverDue(user).size() == 0) {
                     new UserFuntion(user);
                 } else {
-                    ArrayList<BookRecord> list = new ArrayList<>();
+                    ArrayList<BorrowRecord> list = new ArrayList<>();
                     list = dao.isOverDue(user);
                     int t = list.size();
                     JOptionPane.showMessageDialog(getContentPane(), "有"+t+"本书即将逾期，请及时归还");
@@ -136,11 +136,11 @@ public class UserLogin extends JFrame {
                     ResultSet resultSet = null;
                     try {
                         con = DbUtil.getConnection();
-                        String sql = "select * from bookrecord where borrower = ?";
+                        String sql = "select * from borrowrecord where borrower = ?";
                         pstmt = con.prepareStatement(sql);
                         pstmt.setString(1, user.getUserName());
                         resultSet = pstmt.executeQuery();
-                        new ReturnBook(resultSet, user);
+//                        new ReturnBook(resultSet, user);
                     } catch (SQLException esp) {
                         esp.printStackTrace();
                     } finally {

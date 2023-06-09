@@ -14,7 +14,7 @@ import java.sql.SQLException;
 public class DbUtil {
     private static final String dbUrl = "jdbc:mysql://127.0.0.1:3306/db_book";
     private static final String dbUserName = "root";
-    private static final String dbPassword = "mysql";
+    private static final String dbPassword = "root";
 
     //只有首次调用getDataSource方法 才会实例化
     private static DataSource dataSource = null;

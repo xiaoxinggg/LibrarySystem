@@ -2,10 +2,8 @@ package com.booksys.libinterface.Admin;
 
 import com.booksys.dao.BookDao;
 import com.booksys.dao.BorrowerRecordDao;
-import com.booksys.dao.RecordDao;
 import com.booksys.util.DbUtil;
 import com.booksys.util.MyDialogDemo;
-import com.booksys.pojo.BookRecord;
 import com.booksys.pojo.BorrowRecord;
 import com.booksys.pojo.User;
 

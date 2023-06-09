@@ -2,14 +2,10 @@ package com.booksys.libinterface.User;
 
 import com.booksys.dao.BookDao;
 import com.booksys.dao.BorrowerRecordDao;
-import com.booksys.dao.RecordDao;
 import com.booksys.dao.UserDao;
-import com.booksys.pojo.NormalUser;
+import com.booksys.pojo.*;
 import com.booksys.util.DbUtil;
 import com.booksys.util.MyDialogDemo;
-import com.booksys.pojo.BookRecord;
-import com.booksys.pojo.BorrowRecord;
-import com.booksys.pojo.User;
 
 import javax.swing.*;
 import java.awt.*;
@@ -145,20 +141,13 @@ public class BorrowBook extends JFrame {
                         } else {
                             //书籍被借出, 执行借书的操作,更新数据库中借阅书籍的状态(书库和借阅表)
                             BookDao bookDao = new BookDao();
-                            RecordDao recordDao = new RecordDao();
                             BorrowerRecordDao borrowerRecordDao = new BorrowerRecordDao();
 
-                            BookRecord bookRecord = new BookRecord();
                             BorrowRecord borrowRecord = new BorrowRecord();
                             try {
                                 flag = bookDao.borrowBook((String) rowData1[index][1]);
 
-                                bookRecord.setBookName((String) rowData1[index][1]);
-                                bookRecord.setBorrower(user.getUserName());
-
                                 Timestamp t = new Timestamp(new Date().getTime());
-                                bookRecord.setDate(t);
-                                recordDao.addRecord(bookRecord);
 
                                 borrowRecord.setBookName((String) rowData1[index][1]);
                                 borrowRecord.setBorrower(user.getUserName());

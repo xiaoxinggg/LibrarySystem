@@ -2,17 +2,14 @@ package com.booksys.dao;
 
 import com.booksys.libinterface.User.BorrowBook;
 import com.booksys.pojo.Book;
-import com.booksys.pojo.BookRecord;
+import com.booksys.pojo.BorrowRecord;
 import com.booksys.pojo.NormalUser;
 import com.booksys.service.impl.BookService;
 import com.booksys.util.DbUtil;
 import com.booksys.util.GetClassify;
 import com.booksys.util.JudgeOfDelay;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
+import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -30,7 +27,7 @@ public class BookDao implements BookService {
             pstmt.setString(3, book.getAuthor());
             pstmt.setDouble(4, book.getPrice());
             pstmt.setInt(5, book.getNum());
-            pstmt.setInt(6, GetClassify.getClassify(book.getIsbn()));
+            pstmt.setInt(6, book.getToWareHorse());
             int ret = pstmt.executeUpdate();
             if (ret != 1) {
                 return false;
@@ -69,7 +66,7 @@ public class BookDao implements BookService {
         } catch (SQLException e) {
             e.printStackTrace();
         } finally {
-            DbUtil.close(resultSet, pstmt, con);
+
         }
         return list;
     }
@@ -95,6 +92,10 @@ public class BookDao implements BookService {
         return null;
     }
 
+
+//    public static void main(String[] args) {
+//        new BookDao().selectByPartOfName("水");
+//    }
 
     //4.删除书籍
     public boolean deleteBook(String bookName) {
@@ -152,24 +153,25 @@ public class BookDao implements BookService {
     }
 
     //还书
-    public boolean returnBook(NormalUser normalUser, BookRecord bookRecord, String bookName) {
+    public boolean returnBook(int bookId, int userId) {
         Connection con = null;
         PreparedStatement pstmt = null;
         ResultSet resultSet = null;
         UserDao userDao = new UserDao();
         try {
             con = DbUtil.getConnection();
-            String sql = "update book set num=num+1 where bookName = ?";
+            String sql = "update borrowrecord set isReeturn=1 where bookId = ? and borrowerId = ?";
             pstmt = con.prepareStatement(sql);
-            pstmt.setString(1, bookName);
+            pstmt.setInt(1, bookId);
+            pstmt.setInt(2, userId);
 
-            if (JudgeOfDelay.isExceedTime(bookRecord.getDate().getTime()))
-                if (userDao.PayFine(normalUser, bookRecord)) {
-                    System.out.println("缴费成功,余额为" + normalUser.getBalance());
-                } else {
-                    System.out.println("余额不足");
-                    return false;
-                }
+//            if (JudgeOfDelay.isExceedTime(borrowRecord.getBorrowerTime().getTime()))
+//                if (userDao.PayFine(normalUser, borrowRecord)) {
+//                    System.out.println("缴费成功,余额为" + normalUser.getBalance());
+//                } else {
+//                    System.out.println("余额不足");
+//                    return false;
+//                }
             int ret = pstmt.executeUpdate();
             if (ret != 1) {
                 return false;
