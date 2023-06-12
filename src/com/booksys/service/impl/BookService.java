@@ -15,7 +15,6 @@ public interface BookService {
     boolean deleteBook(String bookName);
 
     //5.借书
-    boolean borrowBook(String bookName);
 
     boolean modifyBookName(int id, String bookName);
 

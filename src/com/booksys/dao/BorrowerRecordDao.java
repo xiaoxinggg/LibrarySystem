@@ -13,16 +13,16 @@ import java.util.Date;
  * 借阅信息
  * */
 public class BorrowerRecordDao {
-    //添加借阅信息(这个信息会永远保留，不提供给用户查看)
+    //添加借阅信息(这个信息会永远保留)
     public boolean addBorrowerRecord(BorrowRecord borrowRecord) {
         Connection con = null;
         PreparedStatement pstmt = null;
         try {
             con = DbUtil.getConnection();
-            String sql = "insert into borrowrecord values(null,?,?,?,null,0)";
+            String sql = "insert into borrowrecord values(?,?,?,null,0)";
             pstmt = con.prepareStatement(sql);
-            pstmt.setString(1, borrowRecord.getBookName());
-            pstmt.setString(2, borrowRecord.getBorrower());
+            pstmt.setInt(1, borrowRecord.getBookId());
+            pstmt.setInt(2, borrowRecord.getBorrowerId());
             pstmt.setTimestamp(3, new Timestamp(borrowRecord.getBorrowerTime().getTime()));
             int ret = pstmt.executeUpdate();
             if(ret != 1) {

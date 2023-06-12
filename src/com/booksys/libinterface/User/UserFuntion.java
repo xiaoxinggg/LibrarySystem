@@ -99,7 +99,8 @@ public class UserFuntion extends JFrame {
             ResultSet resultSet = null;
             try {
                 con = DbUtil.getConnection();
-                String sql = "select * from borrowrecord where borrowerId = ?";
+                String sql = "select bookName,borrowTime from book,normaluser,borrowrecord " +
+                        "where book.id=bookId and normaluser.id=borrowerId and borrowerId=? and isReturn=0";
                 pstmt = con.prepareStatement(sql);
                 pstmt.setInt(1, normalUser.getId());
                 resultSet = pstmt.executeQuery();

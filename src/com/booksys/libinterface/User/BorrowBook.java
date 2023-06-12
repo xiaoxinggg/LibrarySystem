@@ -145,14 +145,12 @@ public class BorrowBook extends JFrame {
 
                             BorrowRecord borrowRecord = new BorrowRecord();
                             try {
-                                flag = bookDao.borrowBook((String) rowData1[index][1]);
-
                                 Timestamp t = new Timestamp(new Date().getTime());
 
-                                borrowRecord.setBookName((String) rowData1[index][1]);
-                                borrowRecord.setBorrower(user.getUserName());
+                                borrowRecord.setBookId((Integer) rowData1[index][0]);
+                                borrowRecord.setBorrowerId(user.getId());
                                 borrowRecord.setBorrowerTime(t);
-                                borrowerRecordDao.addBorrowerRecord(borrowRecord);
+                                flag = borrowerRecordDao.addBorrowerRecord(borrowRecord);
 //                            System.out.println((String)rowData1[index][1]);
                             } catch (Exception ex) {
                                 throw new RuntimeException(ex);
@@ -187,6 +185,7 @@ public class BorrowBook extends JFrame {
             pstmt = con.prepareStatement(sql);
             resultSet=pstmt.executeQuery();
             NormalUser normalUser = new NormalUser();
+            normalUser.setId(14);
             normalUser.setUserName("123");
             normalUser.setPassword("123");
             new BorrowBook(resultSet, normalUser);

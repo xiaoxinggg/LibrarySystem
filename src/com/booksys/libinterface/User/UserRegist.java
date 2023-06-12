@@ -160,11 +160,11 @@ public class UserRegist extends JFrame {
         //本科生
         jButton_1.addActionListener(esp -> {
             NormalUser stu = new NormalUser();
-            stu.setUserName(jTextField.getText()); //赋值
+            stu.setId(Integer.parseInt(jTextField.getText())); //赋值
             stu.setPassword(jPasswordField1.getText());
             stu.setTheorySum(10);
             stu.setBalance(10);
-            if (stu.getUserName() == null || stu.getPassword() == null) {
+            if (((Integer)stu.getId())==null || stu.getPassword() == null) {
                 JOptionPane.showMessageDialog(getContentPane(), "注册信息不能为空");
                 new UserRegist();
             } else if (dao.addUser(stu) == true) {
