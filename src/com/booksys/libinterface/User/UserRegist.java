@@ -20,11 +20,13 @@ public class UserRegist extends JFrame {
     static JLabel jLabel2 = new JLabel();
     static JLabel jLabel3 = new JLabel();
     static JLabel jLabel4 = new JLabel();
+    static JLabel jLabel5 = new JLabel();
     static JButton jButton_1 = new JButton(); //普通学生
     static JButton jButton_2 = new JButton(); //教职员工
     static JButton jButton_3 = new JButton(); //研究生
 
     static JTextField jTextField = new JTextField();
+    static JTextField jTextField1 = new JTextField();
     static JPasswordField jPasswordField1 = new JPasswordField();
     static JPasswordField jPasswordField2 = new JPasswordField();
 
@@ -35,10 +37,11 @@ public class UserRegist extends JFrame {
         panelSet(); //panel
         button1Set(); // 返回上一个界面
         button2Set(); //用户注册
-        label1Set();//账号
+        label1Set();//id
         label2Set(); //密码
         label3Set(); //图书管理系统
         label4Set(); //密码
+        label5Set(); //用户名
         buttobn_1set();
         buttobn_2set();
         buttobn_3set();
@@ -51,7 +54,7 @@ public class UserRegist extends JFrame {
     //账号
     public void label1Set() {
         jLabel1 = new JLabel();
-        jLabel1.setText("账号");
+        jLabel1.setText("id");
         jLabel1.setBounds(100, 90, 300, 100);
         jLabel1.setFont(new Font("宋体", Font.TYPE1_FONT, 20)); //字体样式
         jPanel.add(jLabel1);
@@ -59,9 +62,17 @@ public class UserRegist extends JFrame {
 
     //密码
     public void label2Set() {
+        jLabel5 = new JLabel();
+        jLabel5.setText("密码");
+        jLabel5.setBounds(100, 230, 300, 100);
+        jLabel5.setFont(new Font("宋体", Font.TYPE1_FONT, 20)); //字体样式
+        jPanel.add(jLabel5);
+    }
+
+    public void label5Set() {
         jLabel2 = new JLabel();
-        jLabel2.setText("密码");
-        jLabel2.setBounds(100, 160, 300, 100);
+        jLabel2.setText("用户名");
+        jLabel2.setBounds(85, 160, 300, 100);
         jLabel2.setFont(new Font("宋体", Font.TYPE1_FONT, 20)); //字体样式
         jPanel.add(jLabel2);
     }
@@ -78,7 +89,7 @@ public class UserRegist extends JFrame {
     public void label4Set() {
         jLabel4 = new JLabel();
         jLabel4.setText("选择身份类型");
-        jLabel4.setBounds(170, 220, 300, 100);
+        jLabel4.setBounds(170, 360, 300, 100);
         jLabel4.setFont(new Font("宋体", Font.TYPE1_FONT, 20)); //字体样式
         jPanel.add(jLabel4);
     }
@@ -96,17 +107,19 @@ public class UserRegist extends JFrame {
         jPasswordField1.setEchoChar('*');
 
         jTextField.setBounds(150, 120, 200, 40);
-        jPasswordField1.setBounds(150, 190, 200, 40);
+        jTextField1.setBounds(150,190,200,40);
+        jPasswordField1.setBounds(150, 260, 200, 40);
 
         jPanel.add(jTextField);
         jPanel.add(jPasswordField1);
+        jPanel.add(jTextField1);
 
     }
 
 
     public void buttobn_1set() {
         jButton_1 = new JButton("普通学生");
-        jButton_1.setBounds(20, 300, 150, 30);
+        jButton_1.setBounds(20, 340, 150, 30);
         UserRegist.MyActionListener myActionListener = new UserRegist.MyActionListener();
         jButton_1.setActionCommand("1"); //为1 进入普通用户注册
         jButton_1.addActionListener(myActionListener);
@@ -115,7 +128,7 @@ public class UserRegist extends JFrame {
 
     public void buttobn_2set() {
         jButton_2 = new JButton("教职员工");
-        jButton_2.setBounds(160, 300, 150, 30);
+        jButton_2.setBounds(160, 340, 150, 30);
         UserRegist.MyActionListener myActionListener = new UserRegist.MyActionListener();
         jButton_2.setActionCommand("2");
         jButton_2.addActionListener(myActionListener);
@@ -125,7 +138,7 @@ public class UserRegist extends JFrame {
 
     public void buttobn_3set() {
         jButton_3 = new JButton("研究生");
-        jButton_3.setBounds(310, 300, 150, 30);
+        jButton_3.setBounds(310, 340, 150, 30);
         UserRegist.MyActionListener myActionListener = new UserRegist.MyActionListener();
         jButton_3.setActionCommand("3");
         jButton_3.addActionListener(myActionListener);
@@ -136,7 +149,7 @@ public class UserRegist extends JFrame {
     //注册
     public void button2Set() {
         jButton2 = new JButton("用户注册");
-        jButton2.setBounds(50, 360, 150, 30);
+        jButton2.setBounds(50, 400, 150, 30);
        // jPanel.add(jButton2);
 
     }
@@ -160,8 +173,10 @@ public class UserRegist extends JFrame {
         //本科生
         jButton_1.addActionListener(esp -> {
             NormalUser stu = new NormalUser();
-            stu.setUserName(jTextField.getText()); //赋值
+            stu.setId(Integer.parseInt(jTextField.getText()));
+            stu.setUserName(jTextField1.getText()); //赋值
             stu.setPassword(jPasswordField1.getText());
+
             stu.setTheorySum(10);
             stu.setBalance(10);
             if (stu.getUserName() == null || stu.getPassword() == null) {
@@ -181,7 +196,8 @@ public class UserRegist extends JFrame {
         //教职员工
         jButton_2.addActionListener(esp -> {
             Staff stu = new Staff();
-            stu.setUserName(jTextField.getText());
+            stu.setId(Integer.parseInt(jTextField.getText()));
+            stu.setUserName(jTextField1.getText()); //赋值
             stu.setPassword(jPasswordField1.getText());
             stu.setTheorySum(30);
             stu.setBalance(10);
@@ -202,7 +218,8 @@ public class UserRegist extends JFrame {
         //研究生
         jButton_3.addActionListener(esp -> {
             GraduateStudent stu = new GraduateStudent();
-            stu.setUserName(jTextField.getText());
+            stu.setId(Integer.parseInt(jTextField.getText()));
+            stu.setUserName(jTextField1.getText()); //赋值
             stu.setPassword(jPasswordField1.getText());
             stu.setTheorySum(20);
             stu.setBalance(10);

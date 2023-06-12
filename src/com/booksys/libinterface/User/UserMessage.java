@@ -30,19 +30,21 @@ public class UserMessage extends JFrame {
         // 表头（列名）
         Object[][] rowData1 = new Object[2][7];
 
-        String[] columnNames = {"名字", "当前余额", "可借阅数量"};
+        String[] columnNames = {"id","名字", "当前余额", "可借阅数量"};
 
         int cnt = 1;
         while (result.next()) {
             //获取信息
+            int id = result.getInt("id");
             String userName = result.getString("userName");
             String balance = result.getString("balance");
             int sum = result.getInt("theorySum");
 
             //放入表格数组中
-            rowData1[i][0] = userName;
-            rowData1[i][1] = balance;
-            rowData1[i][2] = sum;
+            rowData1[i][0] = id;
+            rowData1[i][1] = userName;
+            rowData1[i][2] = balance;
+            rowData1[i][3] = sum;
 //            rowData1[i][2] = borrower;
 //            rowData1[i][3] = date;
             i++;

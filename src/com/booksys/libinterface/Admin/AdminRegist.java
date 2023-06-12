@@ -27,7 +27,9 @@ public class AdminRegist extends JFrame {
     static JLabel jLabel2 = new JLabel();
     static JLabel jLabel3 = new JLabel();
     static JLabel jLabel4 = new JLabel();
+    static JLabel jLabel5 = new JLabel();
     static JTextField jTextField = new JTextField();
+    static JTextField jTextField1 = new JTextField();
     static JPasswordField jPasswordField1 = new JPasswordField();
     static JPasswordField jPasswordField2 = new JPasswordField();
 
@@ -42,6 +44,7 @@ public class AdminRegist extends JFrame {
         this.label2Set();
         this.label4Set();
         this.label3Set();
+        this.label5Set();
         this.textSet();
         this.setActionListen();
         this.setDefaultCloseOperation(3);
@@ -50,16 +53,23 @@ public class AdminRegist extends JFrame {
 
     public void label1Set() {
         jLabel1 = new JLabel();
-        jLabel1.setText("账号");
+        jLabel1.setText("id");
         jLabel1.setBounds(100, 120, 300, 100);
         jLabel1.setFont(new Font("宋体", 1, 20));
         jPanel.add(jLabel1);
+    }
+    public void label5Set() {
+        jLabel5 = new JLabel();
+        jLabel5.setText("用户名");
+        jLabel5.setBounds(85, 170, 300, 100);
+        jLabel5.setFont(new Font("宋体", 1, 20));
+        jPanel.add(jLabel5);
     }
 
     public void label2Set() {
         jLabel2 = new JLabel();
         jLabel2.setText("密码");
-        jLabel2.setBounds(100, 170, 300, 100);
+        jLabel2.setBounds(100, 220, 300, 100);
         jLabel2.setFont(new Font("宋体", 1, 20));
         jPanel.add(jLabel2);
     }
@@ -67,7 +77,7 @@ public class AdminRegist extends JFrame {
     public void label4Set() {
         jLabel4 = new JLabel();
         jLabel4.setText("认证密码");
-        jLabel4.setBounds(85, 220, 300, 100);
+        jLabel4.setBounds(85, 270, 300, 100);
         jLabel4.setFont(new Font("宋体", 1, 15));
         jPanel.add(jLabel4);
     }
@@ -92,22 +102,25 @@ public class AdminRegist extends JFrame {
         jPasswordField1.setEchoChar('*');
         jPasswordField2.setEchoChar('*');
         jTextField.setBounds(150, 150, 200, 40);
-        jPasswordField1.setBounds(150, 200, 200, 40);
-        jPasswordField2.setBounds(150, 250, 200, 40);
+        jTextField1.setBounds(150, 200, 200, 40);
+
+        jPasswordField1.setBounds(150, 250, 200, 40);
+        jPasswordField2.setBounds(150, 300, 200, 40);
         jPanel.add(jTextField);
+        jPanel.add(jTextField1);
         jPanel.add(jPasswordField1);
         jPanel.add(jPasswordField2);
     }
 
     public void button2Set() {
         jButton2 = new JButton("注册");
-        jButton2.setBounds(20, 330, 150, 30);
+        jButton2.setBounds(20, 400, 150, 30);
         jPanel.add(jButton2);
     }
 
     public void button1Set() {
         jButton1 = new JButton("返回");
-        jButton1.setBounds(300, 330, 150, 30);
+        jButton1.setBounds(300, 400, 150, 30);
         jPanel.add(jButton1);
     }
 
@@ -116,7 +129,8 @@ public class AdminRegist extends JFrame {
         jButton2.addActionListener((e) -> {
             UserDao dao = new UserDao();
             Admin admin = new Admin();
-            admin.setUserName(jTextField.getText());
+            admin.setId(Integer.parseInt(jTextField.getText()));
+            admin.setUserName(jTextField1.getText());
             admin.setPassword(jPasswordField1.getText());
             admin.setAdminPassword(jPasswordField2.getText());
             if(admin.getPassword() == null || admin.getAdminPassword() == null)

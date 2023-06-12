@@ -26,6 +26,7 @@ public class AdminFuntion extends JFrame {
     static JButton jButton4; //修改
     static JButton jButton5; //查询
     static JButton jButton6; //查询所有书记信息
+    static JButton jButton7; //查询所有书记信息
 
     public AdminFuntion(Admin admin) {
         super("图书管理系统");
@@ -38,6 +39,7 @@ public class AdminFuntion extends JFrame {
         button4Set();
         button5Set();
         button6Set();
+        button7Set();
         label1Set();
         setActionListen(admin);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -62,8 +64,14 @@ public class AdminFuntion extends JFrame {
 
     public void button1Set() {
         jButton1 = new JButton("返回");
-        jButton1.setBounds(200, 500, 90, 40);
+        jButton1.setBounds(200, 560, 90, 40);
         jPanel.add(jButton1);
+    }
+
+    public void button7Set() {
+        jButton7 = new JButton("管理用户");
+        jButton7.setBounds(200, 500, 90, 40);
+        jPanel.add(jButton7);
     }
 
     public void button2Set() {
