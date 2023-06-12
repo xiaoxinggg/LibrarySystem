@@ -21,9 +21,9 @@ public class UserDao implements UserService {
         NormalUser user = new NormalUser();
         try {
             con = DbUtil.getConnection();
-            String sql= "select * from normaluser where userName=? and password=?";
+            String sql= "select * from normaluser where id=? and password=?";
             pstmt = con.prepareStatement(sql);
-            pstmt.setString(1, normalUser.getUserName());
+            pstmt.setInt(1, normalUser.getId());
             pstmt.setString(2, normalUser.getPassword());
             resultSet = pstmt.executeQuery();
             while(resultSet.next()) {
@@ -110,9 +110,9 @@ public class UserDao implements UserService {
             PreparedStatement pstmt = null;
             try {
                 con = DbUtil.getConnection();
-                String sql = "insert into normaluser values(null,?,?,?,?,null)";
+                String sql = "insert into normaluser values(?,null,?,?,?,0)";
                 pstmt = con.prepareStatement(sql);
-                pstmt.setString(1, normalUser.getUserName());
+                pstmt.setInt(1, normalUser.getId());
                 pstmt.setString(2, normalUser.getPassword());
                 pstmt.setDouble(3, normalUser.getBalance());
                 pstmt.setInt(4, normalUser.getTheorySum());
@@ -171,9 +171,8 @@ public class UserDao implements UserService {
             resultSet = pstmt.executeQuery();
             while (resultSet.next()) {
                 BorrowRecord bookRecord = new BorrowRecord();
-                bookRecord.setId(resultSet.getInt("id"));
-                bookRecord.setBookName(resultSet.getString("bookName"));
-                bookRecord.setBorrower(resultSet.getString("borrower"));
+                bookRecord.setBookId(resultSet.getInt("bookId"));
+                bookRecord.setBorrowerId(resultSet.getInt("borrowerId"));
                 bookRecord.setBorrowerTime(resultSet.getTimestamp("date"));
                 //没有逾期且返回的天数小于等于7
                 if (!JudgeOfDelay.isExceedTime(bookRecord.getBorrowerTime().getTime()) && Remind.remind(bookRecord.getBorrowerTime().getTime())<=7)

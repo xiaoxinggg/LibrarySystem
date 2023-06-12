@@ -40,9 +40,9 @@ public class ReturnBook extends JFrame {
         int cnt = 1;
         while (result.next()) {
             //获取信息
-            int bookId = result.getInt("id");
+//            int bookId = result.getInt("id");
             String bookName = result.getString("bookName");
-            String borrower = result.getString("borrower");
+//            String borrower = result.getString("borrower");
             Timestamp date = result.getTimestamp("borrowTime");
 
             //放入表格数组中
@@ -59,8 +59,7 @@ public class ReturnBook extends JFrame {
                     rowData1[i][2] = "还有" + t + "天逾期";
                 }
             }
-//            rowData1[i][2] = borrower;
-//            rowData1[i][3] = date;
+//            rowData1[i][2] = date;
             i++;
             cnt++;
         }
@@ -123,16 +122,15 @@ public class ReturnBook extends JFrame {
                         BookDao bookDao = new BookDao();
                         BorrowerRecordDao borrowerRecordDao = new BorrowerRecordDao();
                         try {
-                            //构造一个 有书名和借阅者 的借书记录
-                            //改变 bookrecored1 书籍的状态
 //                            flag = bookDao.returnBook(normalUser, borrowRecord, (String) rowData1[index][1]);
-                            flag = bookDao.returnBook((Integer) rowData1[index][0], normalUser.getId());
-                            borrowerRecordDao.modifyBorrowerRecord((String) rowData1[index][1], normalUser.getUserName());
-                            System.out.println((String) rowData1[index][1]);
+//                            flag = bookDao.returnBook((Integer) rowData1[index][0], normalUser.getId());
+                             flag = borrowerRecordDao.modifyBorrowerRecord((String) rowData1[index][1], normalUser.getUserName());
+//                            System.out.println((String) rowData1[index][1]);
                         } catch (Exception ex) {
                             throw new RuntimeException(ex);
                         }
-                        MyDialogDemo myDialogDemo = flag ? new MyDialogDemo("归还成功") : new MyDialogDemo("归还失败");
+//                        MyDialogDemo myDialogDemo = flag ? new MyDialogDemo("归还成功") : new MyDialogDemo("归还失败");
+                        new MyDialogDemo("归还成功");
 //                        }
                     }
                 } catch (Exception ex) {

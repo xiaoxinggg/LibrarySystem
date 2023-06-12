@@ -117,40 +117,40 @@ public class BookDao implements BookService {
     }
 
     //5.借书
-    public boolean borrowBook(String bookName) {
-        Connection con = null;
-        PreparedStatement pstmt = null;
-        ResultSet resultSet = null;
-        try {
-            con = DbUtil.getConnection();
-            String sql = "update book set num=num-1 where bookName = ?";
-            pstmt = con.prepareStatement(sql);
-            pstmt.setString(1, bookName);
-            int ret = pstmt.executeUpdate();
-            if (ret != 1) {
-                return false;
-            }
-            return true;
-        } catch (SQLException e) {
-            e.printStackTrace();
-        } finally {
-            if (resultSet != null) {
-                try {
-                    con.close();
-                } catch (SQLException e) {
-                    e.printStackTrace();
-                }
-            }
-            if (pstmt != null) {
-                try {
-                    pstmt.close();
-                } catch (SQLException e) {
-                    e.printStackTrace();
-                }
-            }
-        }
-        return false;
-    }
+//    public boolean borrowBook(String bookName) {
+//        Connection con = null;
+//        PreparedStatement pstmt = null;
+//        ResultSet resultSet = null;
+//        try {
+//            con = DbUtil.getConnection();
+//            String sql = "update book set num=num-1 where bookName = ?";
+//            pstmt = con.prepareStatement(sql);
+//            pstmt.setString(1, bookName);
+//            int ret = pstmt.executeUpdate();
+//            if (ret != 1) {
+//                return false;
+//            }
+//            return true;
+//        } catch (SQLException e) {
+//            e.printStackTrace();
+//        } finally {
+//            if (resultSet != null) {
+//                try {
+//                    con.close();
+//                } catch (SQLException e) {
+//                    e.printStackTrace();
+//                }
+//            }
+//            if (pstmt != null) {
+//                try {
+//                    pstmt.close();
+//                } catch (SQLException e) {
+//                    e.printStackTrace();
+//                }
+//            }
+//        }
+//        return false;
+//    }
 
     //还书
     public boolean returnBook(int bookId, int userId) {

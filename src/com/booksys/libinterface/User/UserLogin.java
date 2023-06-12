@@ -106,48 +106,45 @@ public class UserLogin extends JFrame {
         jButton2.addActionListener(e -> {
             UserDao dao = new UserDao();
             NormalUser user = new NormalUser();
-            user.setUserName(jTextField.getText());
+            user.setId(Integer.parseInt(jTextField.getText()));
             user.setPassword(jPasswordField.getText());
-            if (jTextField.getText() == null) {
+            if ("".equals(jTextField.getText())) {
                 JOptionPane.showMessageDialog(getContentPane(), "账号不能为空!");
             } else if ("".equals(jPasswordField.getText())) {
                 JOptionPane.showMessageDialog(getContentPane(), "密码不能为空!");
-            } else if (!user.getPassword().equals(jPasswordField.getText()) || !user.getUserName().equals(jTextField.getText())) {
-                JOptionPane.showMessageDialog(getContentPane(), "用户名或密码错误");
-                System.exit(0);
-            }
-            if (dao.login(user) == null) {
-                System.out.println("134");
-                JOptionPane.showMessageDialog(getContentPane(), "输入信息不能为空！");
-                dispose();
-                new UserLogin();
             } else {
-                JOptionPane.showMessageDialog(getContentPane(), "登录成功");
-                dispose();
-                if (dao.isOverDue(user).size() == 0) {
-                    new UserFuntion(user);
+                if (dao.login(user) == null) {
+                    System.out.println("134");
+                    JOptionPane.showMessageDialog(getContentPane(), "用户名或密码错误");
+                    dispose();
+                    new UserLogin();
                 } else {
-                    ArrayList<BorrowRecord> list = new ArrayList<>();
-                    list = dao.isOverDue(user);
-                    int t = list.size();
-                    JOptionPane.showMessageDialog(getContentPane(), "有"+t+"本书即将逾期，请及时归还");
-                    Connection con = null;
-                    PreparedStatement pstmt = null;
-                    ResultSet resultSet = null;
-                    try {
-                        con = DbUtil.getConnection();
-                        String sql = "select * from borrowrecord where borrower = ?";
-                        pstmt = con.prepareStatement(sql);
-                        pstmt.setString(1, user.getUserName());
-                        resultSet = pstmt.executeQuery();
-//                        new ReturnBook(resultSet, user);
-                    } catch (SQLException esp) {
-                        esp.printStackTrace();
-                    } finally {
-                        DbUtil.close(resultSet, pstmt, con);
+                    JOptionPane.showMessageDialog(getContentPane(), "登录成功");
+                    dispose();
+                    if (dao.isOverDue(user).size() == 0) {
+                        new UserFuntion(user);
+                    } else {
+                        ArrayList<BorrowRecord> list = new ArrayList<>();
+                        list = dao.isOverDue(user);
+                        int t = list.size();
+                        JOptionPane.showMessageDialog(getContentPane(), "有" + t + "本书即将逾期，请及时归还");
+                        Connection con = null;
+                        PreparedStatement pstmt = null;
+                        ResultSet resultSet = null;
+                        try {
+                            con = DbUtil.getConnection();
+                            String sql = "select * from borrowrecord where borrower = ?";
+                            pstmt = con.prepareStatement(sql);
+                            pstmt.setString(1, user.getUserName());
+                            resultSet = pstmt.executeQuery();
+                            //                        new ReturnBook(resultSet, user);
+                        } catch (SQLException esp) {
+                            esp.printStackTrace();
+                        } finally {
+                            DbUtil.close(resultSet, pstmt, con);
+                        }
                     }
                 }
-
             }
         });
 
@@ -155,9 +152,5 @@ public class UserLogin extends JFrame {
             dispose();
             new Inint();
         });
-    }
-
-    public static void main(String[] args) {
-        new UserLogin();
     }
 }

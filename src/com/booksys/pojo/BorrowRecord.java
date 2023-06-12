@@ -3,34 +3,26 @@ package com.booksys.pojo;
 import java.sql.Timestamp;
 
 public class BorrowRecord {
-    private int id;
-    private String bookName;
-    private String borrower;
+    private int bookId;
+    private int borrowerId;
     private Timestamp borrowerTime;
     private Timestamp returnTime;
+    private int isReturn;
 
-    public int getId() {
-        return id;
+    public int getBookId() {
+        return bookId;
     }
 
-    public void setId(int id) {
-        this.id = id;
+    public void setBookId(int bookId) {
+        this.bookId = bookId;
     }
 
-    public String getBookName() {
-        return bookName;
+    public int getBorrowerId() {
+        return borrowerId;
     }
 
-    public void setBookName(String bookName) {
-        this.bookName = bookName;
-    }
-
-    public String getBorrower() {
-        return borrower;
-    }
-
-    public void setBorrower(String borrower) {
-        this.borrower = borrower;
+    public void setBorrowerId(int borrowerId) {
+        this.borrowerId = borrowerId;
     }
 
     public Timestamp getBorrowerTime() {
@@ -47,5 +39,13 @@ public class BorrowRecord {
 
     public void setReturnTime(Timestamp returnTime) {
         this.returnTime = returnTime;
+    }
+
+    public int getIsReturn() {
+        return isReturn;
+    }
+
+    public void setIsReturn(int isReturn) {
+        this.isReturn = isReturn;
     }
 }
