@@ -7,18 +7,18 @@ import javax.swing.*;
 import java.awt.*;
 import java.sql.*;
 
-public class ShowBookSortSum extends JFrame {
+public class ShowHotBooks extends JFrame {
     int i = 0;
 
-    public ShowBookSortSum(ResultSet result) throws SQLException {
+    public ShowHotBooks(ResultSet result) throws SQLException {
         //设置窗口
-        super("书本流通情况");
+        super("排行榜");
         Container container = this.getContentPane();
 
         setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         setBounds(200, 200, 1000, 800);
         //设置标签
-        JLabel label = new JLabel("不同类别图书流通情况");
+        JLabel label = new JLabel("最受欢迎图书排行榜");
         label.setBounds(360, 50, 500 ,40);
         label.setFont(new Font(null, Font.PLAIN, 20));
         label.setForeground(new Color(0, 0, 0));
@@ -31,9 +31,10 @@ public class ShowBookSortSum extends JFrame {
         int cnt = 1;
         while (result.next()) {
             //获取信息
-            String bookName = result.getString("class");
+            String bookName = result.getString("bookName");
             int count = result.getInt("cnt");
 
+            //放入表格数组中
             rowData1[i][0] = cnt++;
             rowData1[i][1] = bookName;
             rowData1[i][2] = count;
@@ -80,20 +81,21 @@ public class ShowBookSortSum extends JFrame {
         setDefaultCloseOperation(DISPOSE_ON_CLOSE);
     }
 
-    public static void main(String[] args) {
-        Connection con = null;
-        PreparedStatement pstmt=null;
-        ResultSet resultSet = null;
-        HotBook hotBook = new HotBook();
-        try {
-            con = DbUtil.getConnection();
-            String sql= "SELECT bookclass.class,COUNT(*) cnt FROM bookclass,borrowrecord,book " +
-                    "WHERE book.id=borrowrecord.bookId AND book.class=bookclass.classNo GROUP BY class";
-            pstmt = con.prepareStatement(sql);
-            resultSet = pstmt.executeQuery();
-            new ShowBookSortSum(resultSet);
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-    }
+//    public static void main(String[] args) {
+//        Connection con = null;
+//        PreparedStatement pstmt=null;
+//        ResultSet resultSet = null;
+//        HotBook hotBook = new HotBook();
+//        int cnt = 10;
+//        try {
+//            con = DbUtil.getConnection();
+//            String sql= "select bookName,count(*) cnt from borrowrecord,book " +
+//                    "where book.id=borrowrecord.bookId group by bookId order by count(*) desc";
+//            pstmt = con.prepareStatement(sql);
+//            resultSet = pstmt.executeQuery();
+//            new ShowHotBooks(resultSet);
+//        } catch (SQLException e) {
+//            e.printStackTrace();
+//        }
+//    }
 }
