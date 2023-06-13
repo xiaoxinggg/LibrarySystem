@@ -182,6 +182,23 @@ public class AdminFuntion extends JFrame {
                 DbUtil.close(resultSet, pstmt, con);
             }
         });
+        jButton7.addActionListener(e -> {
+            Connection con = null;
+            PreparedStatement pstmt = null;
+            ResultSet resultSet = null;
+            try {
+                con=DbUtil.getConnection();
+                String sql="select * from normaluser";
+                pstmt = con.prepareStatement(sql);
+                resultSet=pstmt.executeQuery();
+                new giud(resultSet, admin);
+            } catch (SQLException esp) {
+                esp.printStackTrace();
+            }finally {
+                DbUtil.close(resultSet,pstmt,con);
+            }
+
+        });
     }
 
     public static void main(String[] args) {

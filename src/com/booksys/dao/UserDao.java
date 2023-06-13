@@ -13,6 +13,45 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 
 public class UserDao implements UserService {
+
+    //删除用户
+    public boolean deleteUser(int id) {
+        Connection con = null;
+        PreparedStatement pstmt = null;
+        ResultSet resultSet = null;
+        try {
+            con = DbUtil.getConnection();
+            String sql = "update normaluser set isDelete=? where id = ?";
+            pstmt = con.prepareStatement(sql);
+            pstmt.setInt(1, 1);
+            pstmt.setInt(2, id);
+            int ret = pstmt.executeUpdate();
+            if (ret != 1) {
+                return false;
+            }
+            return true;
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            if (resultSet != null) {
+                try {
+                    con.close();
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
+            }
+            if (pstmt != null) {
+                try {
+                    pstmt.close();
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+        return false;
+    }
+
+
     //普通用户登录
     public NormalUser login(NormalUser normalUser) {
         Connection con = null;
