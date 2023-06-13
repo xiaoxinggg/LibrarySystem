@@ -122,7 +122,8 @@ public class AdminLogin extends JFrame {
         jButton2.addActionListener(e -> {
             UserDao dao = new UserDao();
             Admin admin = new Admin();
-            admin.setUserName(jTextField.getText());
+            admin.setId(Integer.parseInt(jTextField.getText()));
+           // admin.setUserName(jTextField.getText());
             admin.setPassword(jPasswordField1.getText());
             admin.setAdminPassword(jPasswordField2.getText());
             System.out.println(admin.getUserName());

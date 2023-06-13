@@ -27,10 +27,11 @@ public class AdminFuntion extends JFrame {
     static JButton jButton5; //查询
     static JButton jButton6; //查询所有书记信息
     static JButton jButton7; //查询所有书记信息
+    static JButton jButton8; //数据分析
 
     public AdminFuntion(Admin admin) {
         super("图书管理系统");
-        setBounds(700, 220, 500, 700);
+        setBounds(700, 100, 500, 800);
         setLayout(null);
         panelSet();
         button1Set();
@@ -40,6 +41,7 @@ public class AdminFuntion extends JFrame {
         button5Set();
         button6Set();
         button7Set();
+        button8Set();
         label1Set();
         setActionListen(admin);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -64,8 +66,13 @@ public class AdminFuntion extends JFrame {
 
     public void button1Set() {
         jButton1 = new JButton("返回");
-        jButton1.setBounds(200, 560, 90, 40);
+        jButton1.setBounds(200, 620, 90, 40);
         jPanel.add(jButton1);
+    }
+    public void button8Set() {
+        jButton8 = new JButton("数据分析");
+        jButton8.setBounds(200, 560, 90, 40);
+        jPanel.add(jButton8);
     }
 
     public void button7Set() {
@@ -198,6 +205,9 @@ public class AdminFuntion extends JFrame {
                 DbUtil.close(resultSet,pstmt,con);
             }
 
+        });
+        jButton8.addActionListener(e -> {
+            new statis();
         });
     }
 

@@ -87,9 +87,9 @@ public class UserDao implements UserService {
         Admin user = new Admin();
         try {
             con = DbUtil.getConnection();
-            String sql= "select * from admin where userName=? and password=?";
+            String sql= "select * from admin where id=? and password=?";
             pstmt = con.prepareStatement(sql);
-            pstmt.setString(1, admin.getUserName());
+            pstmt.setInt(1, admin.getId());
             pstmt.setString(2, admin.getPassword());
             resultSet = pstmt.executeQuery();
             while(resultSet.next()){
