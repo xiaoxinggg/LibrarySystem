@@ -91,13 +91,33 @@ public class Statistics {
         int cnt = 10;
         try {
             con = DbUtil.getConnection();
-            String sql= "select userName,count(*) cnt from borrowrecord,book " +
-                    "where normaluser.id=borrowrecord.borrowerId group by borrowerId order by count(*) desc";
+            String sql= "select class,count(*) cnt from bookclass,book " +
+                    "where bookclass.classNo=book.class group by classNo";
+            pstmt = con.prepareStatement(sql);
+            resultSet = pstmt.executeQuery();
+            return resultSet;
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+    //各类别图书流通情况
+    public ResultSet getSortByBookType() {
+        Connection con = null;
+        PreparedStatement pstmt=null;
+        ResultSet resultSet = null;
+        HotBook hotBook = new HotBook();
+        int cnt = 10;
+        try {
+            con = DbUtil.getConnection();
+            String sql= "SELECT bookclass.class,COUNT(*) cnt FROM bookclass,borrowrecord,book " +
+                    "WHERE book.id=borrowrecord.bookId AND book.class=bookclass.classNo GROUP BY class";
             pstmt = con.prepareStatement(sql);
             resultSet = pstmt.executeQuery();
             while(resultSet.next() && cnt!=0) {
                 cnt--;
-                hotBook.setBookName(resultSet.getString("userName"));
+                hotBook.setBookName(resultSet.getString("bookName"));
                 hotBook.setCnt(resultSet.getInt("cnt"));
 //                System.out.println(hotBook.getBookName() + " " + hotBook.getCnt());
             }
@@ -110,7 +130,7 @@ public class Statistics {
 
     public static void main(String[] args) {
         Statistics st = new Statistics();
-//        System.out.println(st.getActiveUser());
+        System.out.println(st.getActiveUser());
         System.out.println(st.getBorrowSum());
         System.out.println(st.getHotBooks());
     }
