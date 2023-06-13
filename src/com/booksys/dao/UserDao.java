@@ -109,13 +109,13 @@ public class UserDao implements UserService {
             PreparedStatement pstmt = null;
             try {
                 con = DbUtil.getConnection();
-                String sql = "insert into normaluser values(?,?,?,?,?,0)";
+                String sql = "insert into normaluser values(?,?,?,?,?,0,0)";
                 pstmt = con.prepareStatement(sql);
                 pstmt.setInt(1, normalUser.getId());
                 pstmt.setString(2, normalUser.getUserName());
                 pstmt.setString(3, normalUser.getPassword());
                 pstmt.setDouble(4, normalUser.getBalance());
-                pstmt.setInt(5, normalUser.getTheorySum());
+                pstmt.setInt(5, normalUser.getUserType());
                 int ret = pstmt.executeUpdate();
                 if(ret != 1) {
                     return false;

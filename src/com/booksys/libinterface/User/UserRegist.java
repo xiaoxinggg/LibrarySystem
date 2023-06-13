@@ -176,8 +176,8 @@ public class UserRegist extends JFrame {
             stu.setId(Integer.parseInt(jTextField.getText()));
             stu.setUserName(jTextField1.getText()); //赋值
             stu.setPassword(jPasswordField1.getText());
+            stu.setUserType(1);
 
-            stu.setTheorySum(10);
             stu.setBalance(10);
             if (stu.getUserName() == null || stu.getPassword() == null) {
                 JOptionPane.showMessageDialog(getContentPane(), "注册信息不能为空");
@@ -189,7 +189,7 @@ public class UserRegist extends JFrame {
             } else {
                 dispose();
                 JOptionPane.showMessageDialog(getContentPane(), "该账号已存在，请重新注册！");
-                new AdminRegist();
+                new UserRegist();
                 dispose();
             }
         });
@@ -199,8 +199,9 @@ public class UserRegist extends JFrame {
             stu.setId(Integer.parseInt(jTextField.getText()));
             stu.setUserName(jTextField1.getText()); //赋值
             stu.setPassword(jPasswordField1.getText());
-            stu.setTheorySum(30);
+
             stu.setBalance(10);
+            stu.setUserType(3);
             if (stu.getUserName() == null || stu.getPassword() == null) {
                 JOptionPane.showMessageDialog(getContentPane(), "注册信息不能为空");
                 new UserRegist();
@@ -211,7 +212,7 @@ public class UserRegist extends JFrame {
             } else {
                 dispose();
                 JOptionPane.showMessageDialog(getContentPane(), "该账号已存在，请重新注册！");
-                new AdminRegist();
+                new UserRegist();
                 dispose();
             }
         });
@@ -221,8 +222,9 @@ public class UserRegist extends JFrame {
             stu.setId(Integer.parseInt(jTextField.getText()));
             stu.setUserName(jTextField1.getText()); //赋值
             stu.setPassword(jPasswordField1.getText());
-            stu.setTheorySum(20);
+
             stu.setBalance(10);
+            stu.setUserType(2);
             if (stu.getUserName() == null || stu.getPassword() == null) {
                 JOptionPane.showMessageDialog(getContentPane(), "注册信息不能为空");
                 new UserRegist();
@@ -233,7 +235,7 @@ public class UserRegist extends JFrame {
             } else {
                 dispose();
                 JOptionPane.showMessageDialog(getContentPane(), "该账号已存在，请重新注册！");
-                new AdminRegist();
+                new UserRegist();
                 dispose();
             }
         });

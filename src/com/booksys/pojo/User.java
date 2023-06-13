@@ -4,6 +4,7 @@ abstract public class User {
     protected int id;
     protected String userName;
     protected String password;
+    protected int userType;
 
     public int getId() {
         return id;
@@ -28,6 +29,10 @@ abstract public class User {
     public void setPassword(String password) {
         this.password = password;
     }
+
+    public int getUserType() {return userType;}
+
+    public void setUserType(int userType){this.userType = userType;}
 
     @Override
     public String toString() {
