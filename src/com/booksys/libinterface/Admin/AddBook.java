@@ -16,6 +16,7 @@ public class AddBook extends JFrame {
     static JLabel jLabel5;
     static JLabel jLabel6;
     static JLabel jLabel7;
+    static JLabel jLabel8;
     static JButton jButton1;
     static JButton jButton2;
     static JTextField jTextField1;
@@ -24,6 +25,7 @@ public class AddBook extends JFrame {
     static JTextField jTextField4;
     static JTextField jTextField5;
     static JComboBox box1;//下拉列表框
+    static JComboBox box2;//下拉列表框
 
 
     public AddBook(Admin admin) {
@@ -41,6 +43,7 @@ public class AddBook extends JFrame {
         label5Set();
         label6Set(); //数量
         label7Set(); //选择仓库地址
+        label8Set(); //选择类别
         setActionListen(admin);
         textSet();
 
@@ -66,11 +69,17 @@ public class AddBook extends JFrame {
         jPanel.add(jTextField5);
 
 
-        String[] province={"仓库1","仓库2","仓库3","仓库4","仓库5"};
+        String[] cangku={"仓库1","仓库2","仓库3","仓库4","仓库5"};
         //城市
-        box1=new JComboBox(province);//下拉列表框
-        box1.setBounds(400, 620,300,40);
+        box1=new JComboBox(cangku);//下拉列表框
+        box1.setBounds(320, 620,150,40);
         jPanel.add(box1);
+
+        String type[] ={"自然科学","社会人文","绘本图画","中外文化","综合实用"};
+        //城市
+        box2=new JComboBox(type);//下拉列表框
+        box2.setBounds(680, 620,150,40);
+        jPanel.add(box2);
 
     }
 
@@ -150,6 +159,14 @@ public class AddBook extends JFrame {
         jPanel.add(jLabel7);
     }
 
+    public void label8Set() {
+        jLabel8 = new JLabel();
+        jLabel8.setText("图书类别");
+        jLabel8.setBounds(550, 590, 300, 100);
+        jLabel8.setFont(new Font("宋体", Font.BOLD, 25));
+        jPanel.add(jLabel8);
+    }
+
     public void setActionListen(Admin admin) {
         jButton1.addActionListener(e -> {
             BookDao dao = new BookDao();
@@ -160,6 +177,7 @@ public class AddBook extends JFrame {
             book.setAuthor(jTextField3.getText());
             book.setNum(Integer.parseInt(jTextField5.getText()));
             book.setToWareHorse(box1.getSelectedIndex() + 1);
+            book.setClassq(box2.getSelectedIndex() + 1);
 
             boolean ret = dao.addBook(book); //添加新书
             if (ret) {

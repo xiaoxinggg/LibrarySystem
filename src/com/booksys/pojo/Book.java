@@ -10,6 +10,12 @@ public class Book {
     private double price; // 图书价格
     private int num; //书的数量
     private int toWareHorse;
+    private int classq;
+
+    public int getClassq() {return classq;}
+
+    public void setClassq(int classq) {this.classq = classq;}
+
 
     public int getId() {
         return id;

@@ -21,7 +21,7 @@ public class BookDao implements BookService {
         PreparedStatement pstmt = null;
         try {
             con = DbUtil.getConnection();
-            String sql = "insert into book values(null,?,?,?,?,?,?)";
+            String sql = "insert into book values(null,?,?,?,?,?,?,?)";
             pstmt = con.prepareStatement(sql);
             pstmt.setString(1, book.getBookName());
             pstmt.setInt(2, book.getIsbn());
@@ -29,6 +29,7 @@ public class BookDao implements BookService {
             pstmt.setDouble(4, book.getPrice());
             pstmt.setInt(5, book.getNum());
             pstmt.setInt(6, book.getToWareHorse());
+            pstmt.setInt(7,book.getClassq());
             int ret = pstmt.executeUpdate();
             if (ret != 1) {
                 return false;
