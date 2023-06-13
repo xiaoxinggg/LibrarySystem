@@ -81,21 +81,21 @@ public class ShowBookSortSum extends JFrame {
         setDefaultCloseOperation(DISPOSE_ON_CLOSE);
     }
 
-    public static void main(String[] args) {
-        Connection con = null;
-        PreparedStatement pstmt=null;
-        ResultSet resultSet = null;
-        HotBook hotBook = new HotBook();
-        int cnt = 10;
-        try {
-            con = DbUtil.getConnection();
-            String sql= "SELECT bookclass.class,COUNT(*) cnt FROM bookclass,borrowrecord,book " +
-                    "WHERE book.id=borrowrecord.bookId AND book.class=bookclass.classNo GROUP BY class";
-            pstmt = con.prepareStatement(sql);
-            resultSet = pstmt.executeQuery();
-            new ShowBookSortSum(resultSet);
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-    }
+//    public static void main(String[] args) {
+//        Connection con = null;
+//        PreparedStatement pstmt=null;
+//        ResultSet resultSet = null;
+//        HotBook hotBook = new HotBook();
+//        int cnt = 10;
+//        try {
+//            con = DbUtil.getConnection();
+//            String sql= "SELECT bookclass.class,COUNT(*) cnt FROM bookclass,borrowrecord,book " +
+//                    "WHERE book.id=borrowrecord.bookId AND book.class=bookclass.classNo GROUP BY class";
+//            pstmt = con.prepareStatement(sql);
+//            resultSet = pstmt.executeQuery();
+//            new ShowBookSortSum(resultSet);
+//        } catch (SQLException e) {
+//            e.printStackTrace();
+//        }
+//    }
 }
