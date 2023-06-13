@@ -5,7 +5,7 @@ import java.sql.Timestamp;
 public class BorrowRecord {
     private int bookId;
     private int borrowerId;
-    private Timestamp borrowerTime;
+    private Timestamp borrowTime;
     private Timestamp returnTime;
     private int isReturn;
 
@@ -25,12 +25,12 @@ public class BorrowRecord {
         this.borrowerId = borrowerId;
     }
 
-    public Timestamp getBorrowerTime() {
-        return borrowerTime;
+    public Timestamp getBorrowTime() {
+        return borrowTime;
     }
 
-    public void setBorrowerTime(Timestamp borrowerTime) {
-        this.borrowerTime = borrowerTime;
+    public void setBorrowTime(Timestamp borrowTime) {
+        this.borrowTime = borrowTime;
     }
 
     public Timestamp getReturnTime() {

@@ -149,7 +149,7 @@ public class BorrowBook extends JFrame {
 
                                 borrowRecord.setBookId((Integer) rowData1[index][0]);
                                 borrowRecord.setBorrowerId(user.getId());
-                                borrowRecord.setBorrowerTime(t);
+                                borrowRecord.setBorrowTime(t);
                                 flag = borrowerRecordDao.addBorrowerRecord(borrowRecord);
 //                            System.out.println((String)rowData1[index][1]);
                             } catch (Exception ex) {

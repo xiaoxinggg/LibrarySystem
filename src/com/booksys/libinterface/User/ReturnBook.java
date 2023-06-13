@@ -2,6 +2,7 @@ package com.booksys.libinterface.User;
 
 import com.booksys.dao.BookDao;
 import com.booksys.dao.BorrowerRecordDao;
+import com.booksys.dao.UserDao;
 import com.booksys.util.DbUtil;
 import com.booksys.util.MyDialogDemo;
 import com.booksys.pojo.*;
@@ -15,9 +16,11 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.math.BigDecimal;
 import java.sql.*;
+import java.util.Date;
 
 public class ReturnBook extends JFrame {
     int i = 0;
+    double fine = 0;
 
     public ReturnBook(ResultSet result, NormalUser normalUser) throws SQLException {
         //设置窗口
@@ -35,28 +38,29 @@ public class ReturnBook extends JFrame {
         // 表头（列名）
         Object[][] rowData1 = new Object[100][7];
 
-        String[] columnNames = {"序号", "书名", "是否逾期"};
+        String[] columnNames = {"序号", "书本编号","书名", "是否逾期"};
 
         int cnt = 1;
         while (result.next()) {
             //获取信息
-//            int bookId = result.getInt("id");
+            int bookId = result.getInt("bookId");
             String bookName = result.getString("bookName");
 //            String borrower = result.getString("borrower");
             Timestamp date = result.getTimestamp("borrowTime");
 
             //放入表格数组中
             rowData1[i][0] = cnt;
-            rowData1[i][1] = bookName;
+            rowData1[i][1] = bookId;
+            rowData1[i][2] = bookName;
             long t = Remind.remind(date.getTime());
             if (t == 2147483647)
-                rowData1[i][2] = "未逾期";
+                rowData1[i][3] = "未逾期";
             else {
                 if (JudgeOfDelay.isExceedTime(date.getTime())) {
-                    double fine = new BigDecimal(t*0.1).setScale(1, BigDecimal.ROUND_HALF_UP).doubleValue();;
-                    rowData1[i][2] = "已逾期" + t + "天,需缴费" +  fine + "元";
+                    fine = new BigDecimal(t*0.1).setScale(1, BigDecimal.ROUND_HALF_UP).doubleValue();;
+                    rowData1[i][3] = "已逾期" + t + "天,需缴费" +  fine + "元";
                 } else {
-                    rowData1[i][2] = "还有" + t + "天逾期";
+                    rowData1[i][3] = "还有" + t + "天逾期";
                 }
             }
 //            rowData1[i][2] = date;
@@ -118,22 +122,35 @@ public class ReturnBook extends JFrame {
                     if (index >= i) {
                         new MyDialogDemo("请选中相应行!");
                     } else {
-                        //书籍被借出, 执行借书的操作,更新数据库中借阅书籍的状态
                         BookDao bookDao = new BookDao();
                         BorrowerRecordDao borrowerRecordDao = new BorrowerRecordDao();
+
+                        BorrowRecord borrowRecord = new BorrowRecord();
+                        Timestamp t = new Timestamp(new Date().getTime());
+                        borrowRecord.setBookId((Integer) rowData1[index][1]);
+                        borrowRecord.setBorrowerId(normalUser.getId());
+                        borrowRecord.setBorrowTime(t);
                         try {
-//                            flag = bookDao.returnBook(normalUser, borrowRecord, (String) rowData1[index][1]);
-//                            flag = bookDao.returnBook((Integer) rowData1[index][0], normalUser.getId());
-                             flag = borrowerRecordDao.modifyBorrowerRecord((String) rowData1[index][1], normalUser.getUserName());
+//                             bookDao.returnBook((Integer) rowData1[index][1], normalUser.getId(), t);
+                             bookDao.returnBook(borrowRecord);
+                             flag = borrowerRecordDao.modifyBorrowerRecord((Integer) rowData1[index][1], normalUser.getId());
 //                            System.out.println((String) rowData1[index][1]);
                         } catch (Exception ex) {
                             throw new RuntimeException(ex);
                         }
-//                        MyDialogDemo myDialogDemo = flag ? new MyDialogDemo("归还成功") : new MyDialogDemo("归还失败");
-                        new MyDialogDemo("归还成功");
+                        if(fine != 0) {
+                            if(fine <= (new UserDao().getBalanceSql(normalUser))) {
+                                new UserDao().PayFine(normalUser, fine);
+                            } else {
+                                new MyDialogDemo("余额不足，归还失败");
+                            }
+                        }
+                        MyDialogDemo myDialogDemo = flag ? new MyDialogDemo("归还成功") : new MyDialogDemo("归还失败");
+
 //                        }
                     }
                 } catch (Exception ex) {
+                    ex.printStackTrace();
                     new MyDialogDemo("未选中行!");
                 }
             }

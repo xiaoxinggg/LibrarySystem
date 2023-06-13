@@ -15,6 +15,7 @@ public class AddBook extends JFrame {
     static JLabel jLabel4;
     static JLabel jLabel5;
     static JLabel jLabel6;
+    static JLabel jLabel7;
     static JButton jButton1;
     static JButton jButton2;
     static JTextField jTextField1;
@@ -22,11 +23,12 @@ public class AddBook extends JFrame {
     static JTextField jTextField3;
     static JTextField jTextField4;
     static JTextField jTextField5;
+    static JComboBox box1;//下拉列表框
 
 
     public AddBook(Admin admin) {
         super("图书管理系统");
-        setBounds(500, 150, 1000, 800);
+        setBounds(500, 120, 1000, 890);
         //设置绝对布局
         setLayout(null);
         panelSet();
@@ -38,8 +40,10 @@ public class AddBook extends JFrame {
         label4Set();
         label5Set();
         label6Set(); //数量
+        label7Set(); //选择仓库地址
         setActionListen(admin);
         textSet();
+
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setVisible(true);
     }
@@ -62,6 +66,12 @@ public class AddBook extends JFrame {
         jPanel.add(jTextField5);
 
 
+        String[] province={"仓库1","仓库2","仓库3","仓库4","仓库5"};
+        //城市
+        box1=new JComboBox(province);//下拉列表框
+        box1.setBounds(400, 620,300,40);
+        jPanel.add(box1);
+
     }
 
     public void label1Set() {
@@ -82,13 +92,13 @@ public class AddBook extends JFrame {
 
     public void button1Set() {
         jButton1 = new JButton("录入");
-        jButton1.setBounds(300, 650, 100, 50);
+        jButton1.setBounds(300, 700, 100, 50);
         jPanel.add(jButton1);
     }
 
     public void button2Set() {
         jButton2 = new JButton("返回");
-        jButton2.setBounds(550, 650, 100, 50);
+        jButton2.setBounds(550, 700, 100, 50);
         jPanel.add(jButton2);
     }
 
@@ -125,11 +135,19 @@ public class AddBook extends JFrame {
     }
 
     public void label6Set() {
-        jLabel5 = new JLabel();
-        jLabel5.setText("数量");
-        jLabel5.setBounds(200, 510, 300, 100);
-        jLabel5.setFont(new Font("宋体", Font.BOLD, 25));
-        jPanel.add(jLabel5);
+        jLabel6 = new JLabel();
+        jLabel6.setText("数量");
+        jLabel6.setBounds(200, 510, 300, 100);
+        jLabel6.setFont(new Font("宋体", Font.BOLD, 25));
+        jPanel.add(jLabel6);
+    }
+
+    public void label7Set() {
+        jLabel7 = new JLabel();
+        jLabel7.setText("存放仓库");
+        jLabel7.setBounds(200, 590, 300, 100);
+        jLabel7.setFont(new Font("宋体", Font.BOLD, 25));
+        jPanel.add(jLabel7);
     }
 
     public void setActionListen(Admin admin) {
@@ -141,10 +159,12 @@ public class AddBook extends JFrame {
             book.setPrice(Double.parseDouble(jTextField4.getText()));
             book.setAuthor(jTextField3.getText());
             book.setNum(Integer.parseInt(jTextField5.getText()));
+            book.setToWareHorse(box1.getSelectedIndex() + 1);
 
             boolean ret = dao.addBook(book); //添加新书
             if (ret) {
                 System.out.println("新增成功");
+                System.out.println("id" +book.getToWareHorse());
                 JOptionPane.showMessageDialog(getContentPane(), "添加成功，请继续操作!");
                 dispose();
                 new AdminFuntion(admin); //再次进入管理员功能界面

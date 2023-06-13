@@ -153,7 +153,8 @@ public class AdminFuntion extends JFrame {
             ResultSet resultSet = null;
             try {
                 con = DbUtil.getConnection();
-                String sql = "select * from borrowrecord";
+                String sql = "select * from book,normaluser,borrowrecord " +
+                        "where book.id=bookId and normaluser.id=borrowerId";
                 pstmt = con.prepareStatement(sql);
                 resultSet = pstmt.executeQuery();
                 new ShowBorrowRecord(resultSet);

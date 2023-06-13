@@ -11,6 +11,7 @@ import com.booksys.util.JudgeOfDelay;
 
 import java.sql.*;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 public class BookDao implements BookService {
@@ -153,17 +154,18 @@ public class BookDao implements BookService {
 //    }
 
     //还书
-    public boolean returnBook(int bookId, int userId) {
+    public boolean returnBook(BorrowRecord borrowRecord) {
         Connection con = null;
         PreparedStatement pstmt = null;
         ResultSet resultSet = null;
         UserDao userDao = new UserDao();
         try {
             con = DbUtil.getConnection();
-            String sql = "update borrowrecord set isReeturn=1 where bookId = ? and borrowerId = ?";
+            String sql = "update borrowrecord set isReturn=1,returnTime=? where bookId = ? and borrowerId = ?";
             pstmt = con.prepareStatement(sql);
-            pstmt.setInt(1, bookId);
-            pstmt.setInt(2, userId);
+            pstmt.setTimestamp(1, borrowRecord.getReturnTime());
+            pstmt.setInt(2, borrowRecord.getBookId());
+            pstmt.setInt(3, borrowRecord.getBorrowerId());
 
 //            if (JudgeOfDelay.isExceedTime(borrowRecord.getBorrowerTime().getTime()))
 //                if (userDao.PayFine(normalUser, borrowRecord)) {

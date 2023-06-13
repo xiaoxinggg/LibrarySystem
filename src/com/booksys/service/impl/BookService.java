@@ -1,8 +1,10 @@
 package com.booksys.service.impl;
 
 import com.booksys.pojo.Book;
+import com.booksys.pojo.BorrowRecord;
 import com.booksys.pojo.NormalUser;
 
+import java.sql.Timestamp;
 import java.util.List;
 
 public interface BookService {
@@ -11,10 +13,13 @@ public interface BookService {
     //查看所有图书
     List<Book> selectAll();
 
-    //4.删除书籍
+    //删除书籍
     boolean deleteBook(String bookName);
 
-    //5.借书
+    //还书
+    boolean returnBook(BorrowRecord borrowRecord);
+
+    //借书
 
     boolean modifyBookName(int id, String bookName);
 

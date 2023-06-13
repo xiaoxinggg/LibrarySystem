@@ -23,7 +23,7 @@ public class BorrowerRecordDao {
             pstmt = con.prepareStatement(sql);
             pstmt.setInt(1, borrowRecord.getBookId());
             pstmt.setInt(2, borrowRecord.getBorrowerId());
-            pstmt.setTimestamp(3, new Timestamp(borrowRecord.getBorrowerTime().getTime()));
+            pstmt.setTimestamp(3, new Timestamp(borrowRecord.getBorrowTime().getTime()));
             int ret = pstmt.executeUpdate();
             if(ret != 1) {
                 return false;
@@ -39,16 +39,16 @@ public class BorrowerRecordDao {
     }
 
     //修改借阅信息(这个信息会永远保留，不提供给用户查看)
-    public boolean modifyBorrowerRecord(String bookName, String borrower) {
+    public boolean modifyBorrowerRecord(int bookId, int borrowerId) {
         Connection con = null;
         PreparedStatement pstmt = null;
         try {
             con = DbUtil.getConnection();
-            String sql = "update borrowrecord set returnTime=? where bookName = ? and borrower=?";
+            String sql = "update borrowrecord set returnTime=? where bookId = ? and borrowerId=?";
             pstmt = con.prepareStatement(sql);
             pstmt.setTimestamp(1, new Timestamp(new Date().getTime()));
-            pstmt.setString(2, bookName);
-            pstmt.setString(3, borrower);
+            pstmt.setInt(2, bookId);
+            pstmt.setInt(3, borrowerId);
 
 //            pstmt.setTimestamp(3, bookRecord.getLocalDate());
             int ret = pstmt.executeUpdate();

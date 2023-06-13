@@ -30,7 +30,7 @@ public class UserMessage extends JFrame {
         // 表头（列名）
         Object[][] rowData1 = new Object[2][7];
 
-        String[] columnNames = {"id","名字", "当前余额", "可借阅数量"};
+        String[] columnNames = {"id","名字", "当前余额", "已借阅数量"};
 
         int cnt = 1;
         while (result.next()) {
@@ -38,7 +38,7 @@ public class UserMessage extends JFrame {
             int id = result.getInt("id");
             String userName = result.getString("userName");
             String balance = result.getString("balance");
-            int sum = result.getInt("theorySum");
+            int sum = result.getInt("realSum");
 
             //放入表格数组中
             rowData1[i][0] = id;

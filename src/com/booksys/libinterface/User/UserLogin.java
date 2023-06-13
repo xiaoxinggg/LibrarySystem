@@ -114,7 +114,6 @@ public class UserLogin extends JFrame {
                 JOptionPane.showMessageDialog(getContentPane(), "密码不能为空!");
             } else {
                 if (dao.login(user) == null) {
-                    System.out.println("134");
                     JOptionPane.showMessageDialog(getContentPane(), "用户名或密码错误");
                     dispose();
                     new UserLogin();
@@ -122,22 +121,24 @@ public class UserLogin extends JFrame {
                     JOptionPane.showMessageDialog(getContentPane(), "登录成功");
                     dispose();
                     if (dao.isOverDue(user).size() == 0) {
+                        System.out.println("没有书过期");
                         new UserFuntion(user);
                     } else {
                         ArrayList<BorrowRecord> list = new ArrayList<>();
                         list = dao.isOverDue(user);
                         int t = list.size();
-                        JOptionPane.showMessageDialog(getContentPane(), "有" + t + "本书即将逾期，请及时归还");
+                        JOptionPane.showMessageDialog(getContentPane(), "有" + t + "本书逾期或即将逾期，请及时归还");
                         Connection con = null;
                         PreparedStatement pstmt = null;
                         ResultSet resultSet = null;
                         try {
                             con = DbUtil.getConnection();
-                            String sql = "select * from borrowrecord where borrower = ?";
+                            String sql = "select bookId,bookName,borrowTime from book,normaluser,borrowrecord " +
+                                    "where book.id=bookId and normaluser.id=borrowerId and borrowerId=? and isReturn=0";
                             pstmt = con.prepareStatement(sql);
-                            pstmt.setString(1, user.getUserName());
+                            pstmt.setInt(1, user.getId());
                             resultSet = pstmt.executeQuery();
-                            //                        new ReturnBook(resultSet, user);
+                            new ReturnBook(resultSet, user);
                         } catch (SQLException esp) {
                             esp.printStackTrace();
                         } finally {

@@ -21,7 +21,7 @@ public interface UserService {
     ArrayList<BorrowRecord> isOverDue(NormalUser normalUser);
 
     //交罚款
-    boolean PayFine(NormalUser normalUser, BorrowRecord bookRecord);
+    boolean PayFine(NormalUser normalUser, double fine);
 
     //充值
     boolean Charge(NormalUser normalUser, double money);

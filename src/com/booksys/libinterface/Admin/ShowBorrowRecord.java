@@ -38,9 +38,9 @@ public class ShowBorrowRecord extends JFrame {
 
         while (result.next()) {
             //获取信息
-            int id = result.getInt("id");
+            int id = result.getInt("bookId");
             String bookName = result.getString("bookName");
-            String borrower = result.getString("borrower");
+            String borrower = result.getString("userName");
             Timestamp borrowTime = result.getTimestamp("borrowTime");
             Timestamp returnTime = result.getTimestamp("returnTime");
             String a = new SimpleDateFormat("yyyy-MM-dd").format(borrowTime.getTime());

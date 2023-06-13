@@ -99,7 +99,7 @@ public class UserFuntion extends JFrame {
             ResultSet resultSet = null;
             try {
                 con = DbUtil.getConnection();
-                String sql = "select bookName,borrowTime from book,normaluser,borrowrecord " +
+                String sql = "select bookId,bookName,borrowTime from book,normaluser,borrowrecord " +
                         "where book.id=bookId and normaluser.id=borrowerId and borrowerId=? and isReturn=0";
                 pstmt = con.prepareStatement(sql);
                 pstmt.setInt(1, normalUser.getId());
@@ -139,9 +139,9 @@ public class UserFuntion extends JFrame {
             ResultSet resultSet = null;
             try {
                 con = DbUtil.getConnection();
-                String sql = "select * from normaluser where userName=?";
+                String sql = "select * from normaluser where id=?";
                 pstmt = con.prepareStatement(sql);
-                pstmt.setString(1, normalUser.getUserName());
+                pstmt.setInt(1, normalUser.getId());
                 resultSet = pstmt.executeQuery();
                 System.out.println("34234");
                 new UserMessage(resultSet, normalUser);

@@ -188,7 +188,7 @@ public class UserRegist extends JFrame {
                 dispose();
             } else {
                 dispose();
-                JOptionPane.showMessageDialog(getContentPane(), "注册失败!");
+                JOptionPane.showMessageDialog(getContentPane(), "该账号已存在，请重新注册！");
                 new AdminRegist();
                 dispose();
             }
@@ -210,7 +210,7 @@ public class UserRegist extends JFrame {
                 dispose();
             } else {
                 dispose();
-                JOptionPane.showMessageDialog(getContentPane(), "注册失败!");
+                JOptionPane.showMessageDialog(getContentPane(), "该账号已存在，请重新注册！");
                 new AdminRegist();
                 dispose();
             }
@@ -232,7 +232,7 @@ public class UserRegist extends JFrame {
                 dispose();
             } else {
                 dispose();
-                JOptionPane.showMessageDialog(getContentPane(), "注册失败!");
+                JOptionPane.showMessageDialog(getContentPane(), "该账号已存在，请重新注册！");
                 new AdminRegist();
                 dispose();
             }

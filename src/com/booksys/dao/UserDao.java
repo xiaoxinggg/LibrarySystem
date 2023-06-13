@@ -40,7 +40,6 @@ public class UserDao implements UserService {
         return null;
     }
 
-
     //管理员登录
     public Admin login(Admin admin) {
         Connection con = null;
@@ -110,12 +109,13 @@ public class UserDao implements UserService {
             PreparedStatement pstmt = null;
             try {
                 con = DbUtil.getConnection();
-                String sql = "insert into normaluser values(?,null,?,?,?,0)";
+                String sql = "insert into normaluser values(?,?,?,?,?,0)";
                 pstmt = con.prepareStatement(sql);
                 pstmt.setInt(1, normalUser.getId());
-                pstmt.setString(2, normalUser.getPassword());
-                pstmt.setDouble(3, normalUser.getBalance());
-                pstmt.setInt(4, normalUser.getTheorySum());
+                pstmt.setString(2, normalUser.getUserName());
+                pstmt.setString(3, normalUser.getPassword());
+                pstmt.setDouble(4, normalUser.getBalance());
+                pstmt.setInt(5, normalUser.getTheorySum());
                 int ret = pstmt.executeUpdate();
                 if(ret != 1) {
                     return false;
@@ -165,18 +165,22 @@ public class UserDao implements UserService {
         ArrayList<BorrowRecord> list = new ArrayList<>();
         try {
             con = DbUtil.getConnection();
-            String sql = "select* from bookrecord where borrower=?";
+            String sql = "select * from borrowrecord where borrowerId=?";
             pstmt = con.prepareStatement(sql);
-            pstmt.setString(1, normalUser.getUserName());
+            pstmt.setInt(1, normalUser.getId());
             resultSet = pstmt.executeQuery();
             while (resultSet.next()) {
-                BorrowRecord bookRecord = new BorrowRecord();
-                bookRecord.setBookId(resultSet.getInt("bookId"));
-                bookRecord.setBorrowerId(resultSet.getInt("borrowerId"));
-                bookRecord.setBorrowerTime(resultSet.getTimestamp("date"));
+                BorrowRecord borrowRecord = new BorrowRecord();
+                borrowRecord.setBookId(resultSet.getInt("bookId"));
+                borrowRecord.setBorrowerId(resultSet.getInt("borrowerId"));
+                borrowRecord.setBorrowTime(resultSet.getTimestamp("borrowTime"));
+                borrowRecord.setIsReturn(resultSet.getInt("isReturn"));
                 //没有逾期且返回的天数小于等于7
-                if (!JudgeOfDelay.isExceedTime(bookRecord.getBorrowerTime().getTime()) && Remind.remind(bookRecord.getBorrowerTime().getTime())<=7)
-                    list.add(bookRecord);
+                if ((JudgeOfDelay.isExceedTime(borrowRecord.getBorrowTime().getTime()) || Remind.remind(borrowRecord.getBorrowTime().getTime())<=7) && borrowRecord.getIsReturn()==0) {
+                    System.out.println(borrowRecord.getBookId()+"  "+borrowRecord.getBorrowTime());
+                    list.add(borrowRecord);
+                }
+
             }
             return list;
         } catch (SQLException e) {
@@ -201,8 +205,7 @@ public class UserDao implements UserService {
     }
 
     //交罚款
-    public boolean PayFine(NormalUser normalUser, BorrowRecord bookRecord) {
-        double fine = Remind.overDays(bookRecord.getBorrowerTime().getTime())*0.1;
+    public boolean PayFine(NormalUser normalUser, double fine) {
         double balance = new UserDao().getBalanceSql(normalUser)-fine;
         if(balance<0)
             return false;
@@ -210,10 +213,10 @@ public class UserDao implements UserService {
         PreparedStatement pstmt = null;
         try {
             con = DbUtil.getConnection();
-            String sql = "update normaluser set balance = ? where userName = ?";
+            String sql = "update normaluser set balance = ? where id = ?";
             pstmt = con.prepareStatement(sql);
             pstmt.setDouble(1, balance);
-            pstmt.setString(2, normalUser.getUserName());
+            pstmt.setInt(2, normalUser.getId());
             int ret = pstmt.executeUpdate();
             if (ret != 1) {
                 return false;
@@ -234,11 +237,11 @@ public class UserDao implements UserService {
         PreparedStatement pstmt = null;
         try {
             con = DbUtil.getConnection();
-            String sql = "update normaluser set balance = ? where userName = ?";
+            String sql = "update normaluser set balance = ? where id = ?";
             double balance = getBalanceSql(normalUser)+money;
             pstmt = con.prepareStatement(sql);
             pstmt.setDouble(1, balance);
-            pstmt.setString(2, normalUser.getUserName());
+            pstmt.setInt(2, normalUser.getId());
             int ret = pstmt.executeUpdate();
             if (ret != 1) {
                 return false;
@@ -260,9 +263,9 @@ public class UserDao implements UserService {
         ResultSet resultSet = null;
         try {
             con = DbUtil.getConnection();
-            String sql = "select balance from normaluser where userName = ?";
+            String sql = "select balance from normaluser where id = ?";
             pstmt = con.prepareStatement(sql);
-            pstmt.setString(1, normalUser.getUserName());
+            pstmt.setInt(1, normalUser.getId());
             resultSet = pstmt.executeQuery();
             while (resultSet.next()) {
                 double re = resultSet.getDouble("balance");
@@ -318,10 +321,10 @@ public class UserDao implements UserService {
         UserDao userDao = new UserDao();
         try {
             con = DbUtil.getConnection();
-            String sql = "update normaluser set password=? where userName=? and password=?";
+            String sql = "update normaluser set password=? where id=? and password=?";
             pstmt = con.prepareStatement(sql);
             pstmt.setString(1, newPassword);
-            pstmt.setString(2, normalUser.getUserName());
+            pstmt.setInt(2, normalUser.getId());
             pstmt.setString(3, normalUser.getPassword());
             int ret = pstmt.executeUpdate();
             if (ret != 1) {
@@ -349,11 +352,5 @@ public class UserDao implements UserService {
         return false;
     }
 
-//    public static void main(String[] args) {
-//        NormalUser user = new NormalUser();
-//        user.setUserName("aaa");
-//        user.setPassword("2233");
-//        new UserDao().modifyPassword(user, "123456");
-//        new UserDao().showUserInfo(user);
-//    }
+    //
 }
