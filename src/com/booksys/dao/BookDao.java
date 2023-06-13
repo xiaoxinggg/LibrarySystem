@@ -94,11 +94,6 @@ public class BookDao implements BookService {
         return null;
     }
 
-
-//    public static void main(String[] args) {
-//        new BookDao().selectByPartOfName("水");
-//    }
-
     //4.删除书籍
     public boolean deleteBook(String bookName) {
         Connection con = null;
@@ -390,9 +385,4 @@ public class BookDao implements BookService {
         }
         return false;
     }
-
-//    public static void main(String[] args) {
-//        BookDao bookDao = new BookDao();
-//        bookDao.modifyNum(16, 15);
-//    }
 }

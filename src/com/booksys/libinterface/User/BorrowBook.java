@@ -140,7 +140,6 @@ public class BorrowBook extends JFrame {
                             new MyDialogDemo("该书已被借完！");
                         } else {
                             //书籍被借出, 执行借书的操作,更新数据库中借阅书籍的状态(书库和借阅表)
-                            BookDao bookDao = new BookDao();
                             BorrowerRecordDao borrowerRecordDao = new BorrowerRecordDao();
 
                             BorrowRecord borrowRecord = new BorrowRecord();
@@ -151,7 +150,6 @@ public class BorrowBook extends JFrame {
                                 borrowRecord.setBorrowerId(user.getId());
                                 borrowRecord.setBorrowTime(t);
                                 flag = borrowerRecordDao.addBorrowerRecord(borrowRecord);
-//                            System.out.println((String)rowData1[index][1]);
                             } catch (Exception ex) {
                                 throw new RuntimeException(ex);
                             }

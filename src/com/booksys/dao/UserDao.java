@@ -132,13 +132,6 @@ public class UserDao implements UserService {
         }
         return null;
     }
-//    public static void main(String[] args) {
-//        UserDao userDao = new UserDao();
-//        NormalUser normalUser = new NormalUser();
-////        normalUser.setUserName("ahh");
-////        normalUser.setPasswored("123456");
-//        userDao.selectByName("888888");
-//    }
 
     //注册
     public boolean addUser(User user) {
