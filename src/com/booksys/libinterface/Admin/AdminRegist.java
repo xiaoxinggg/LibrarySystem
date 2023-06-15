@@ -53,7 +53,7 @@ public class AdminRegist extends JFrame {
 
     public void label1Set() {
         jLabel1 = new JLabel();
-        jLabel1.setText("id");
+        jLabel1.setText("账号");
         jLabel1.setBounds(100, 120, 300, 100);
         jLabel1.setFont(new Font("宋体", 1, 20));
         jPanel.add(jLabel1);

@@ -68,6 +68,7 @@ public class UserDao implements UserService {
                 user.setId(resultSet.getInt("id"));
                 user.setUserName(resultSet.getString("userName"));
                 user.setPassword(resultSet.getString("password"));
+                user.setRealSum(resultSet.getInt("realSum"));
                 return user;
             }
         } catch (SQLException e) {

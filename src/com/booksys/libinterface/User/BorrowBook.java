@@ -149,14 +149,12 @@ public class BorrowBook extends JFrame {
                                 borrowRecord.setBookId((Integer) rowData1[index][0]);
                                 borrowRecord.setBorrowerId(user.getId());
                                 borrowRecord.setBorrowTime(t);
-                                flag = borrowerRecordDao.addBorrowerRecord(borrowRecord);
+                                borrowerRecordDao.addBorrowerRecord(borrowRecord);
+                                flag = new BorrowerRecordDao().IsOverBook(user);
                             } catch (Exception ex) {
                                 throw new RuntimeException(ex);
                             }
-                            MyDialogDemo myDialogDemo = flag ? new MyDialogDemo("借阅成功") : new MyDialogDemo("借阅失败");
-                            if(flag) {
-
-                            }
+                            MyDialogDemo myDialogDemo = flag ? new MyDialogDemo("借阅成功！") : new MyDialogDemo("您的借阅数量已到达上限！");
                         }
                     }
                 } catch (Exception ex) {

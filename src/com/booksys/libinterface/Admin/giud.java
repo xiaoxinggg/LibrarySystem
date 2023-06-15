@@ -1,5 +1,6 @@
 package com.booksys.libinterface.Admin;
 
+import com.booksys.dao.AdminDao;
 import com.booksys.dao.BookDao;
 import com.booksys.dao.UserDao;
 import com.booksys.pojo.Admin;
@@ -125,6 +126,7 @@ public class giud extends JFrame{
                         UserDao userDao = new UserDao();
                         try {
                             flag = userDao.deleteUser((int)rowData1[index][0]);
+                            new AdminDao().addAccountDelRecord(admin.getId(), (int)rowData1[index][0]);
                             System.out.println((int)rowData1[index][0]);
                         } catch (Exception ex) {
                             throw new RuntimeException(ex);

@@ -195,7 +195,7 @@ public class AdminFuntion extends JFrame {
             ResultSet resultSet = null;
             try {
                 con=DbUtil.getConnection();
-                String sql="select * from normaluser";
+                String sql="select * from normaluser where realSum=0";
                 pstmt = con.prepareStatement(sql);
                 resultSet=pstmt.executeQuery();
                 new giud(resultSet, admin);

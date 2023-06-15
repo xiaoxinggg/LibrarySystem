@@ -26,17 +26,15 @@ public class ShowBookSortSum extends JFrame {
         // 表头（列名）
         Object[][] rowData1 = new Object[100][7];
 
-        String[] columnNames = {"排名","书名", "借阅次数"};
+        String[] columnNames = {"类型", "借阅次数"};
 
-        int cnt = 1;
         while (result.next()) {
             //获取信息
             String bookName = result.getString("class");
             int count = result.getInt("cnt");
 
-            rowData1[i][0] = cnt++;
-            rowData1[i][1] = bookName;
-            rowData1[i][2] = count;
+            rowData1[i][0] = bookName;
+            rowData1[i][1] = count;
             i++;
         }
 
