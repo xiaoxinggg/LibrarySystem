@@ -121,14 +121,15 @@ public class AdminFuntion extends JFrame {
             new AddBook(admin);
         });
         jButton3.addActionListener(e -> {
-//            dispose();
             Connection con = null;
             PreparedStatement pstmt = null;
             ResultSet resultSet = null;
             try {
                 con=DbUtil.getConnection();
-                String sql="select * from book";
+                String sql = "select distinct book.id,bookName,isbn,author,price,num from book,warehouse,admin " +
+                        "where warehouse.adminId=? and book.toWareHouse=warehouse.wareHouseNum";
                 pstmt = con.prepareStatement(sql);
+                pstmt.setInt(1, admin.getId());
                 resultSet=pstmt.executeQuery();
                 new DeleteBook(resultSet, new UnderGraduate());
             } catch (SQLException esp) {
@@ -144,8 +145,10 @@ public class AdminFuntion extends JFrame {
             ResultSet resultSet = null;
             try {
                 con=DbUtil.getConnection();
-                String sql="select * from book";
+                String sql = "select distinct book.id,bookName,isbn,author,price,num from book,warehouse,admin " +
+                        "where warehouse.adminId=? and book.toWareHouse=warehouse.wareHouseNum";
                 pstmt = con.prepareStatement(sql);
+                pstmt.setInt(1, admin.getId());
                 resultSet=pstmt.executeQuery();
                 new Modify(resultSet, admin);
             } catch (SQLException esp) {
@@ -179,8 +182,10 @@ public class AdminFuntion extends JFrame {
             NormalUser user = userDao.selectByName("dll");
             try {
                 con = DbUtil.getConnection();
-                String sql = "select * from book";
+                String sql = "select distinct book.id,bookName,isbn,author,price,num from book,warehouse,admin " +
+                        "where warehouse.adminId=? and book.toWareHouse=warehouse.wareHouseNum";
                 pstmt = con.prepareStatement(sql);
+                pstmt.setInt(1, admin.getId());
                 resultSet = pstmt.executeQuery();
                 new ShowList(resultSet, user);
             } catch (SQLException esp) {
