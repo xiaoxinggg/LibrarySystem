@@ -4,6 +4,7 @@ import com.booksys.libinterface.Admin.AdminLogin;
 import com.booksys.libinterface.Statistics;
 import com.booksys.libinterface.User.UserLogin;
 import com.booksys.libinterface.ShowStatistics.*;
+import com.booksys.pojo.Admin;
 import com.booksys.pojo.HotBook;
 import com.booksys.util.DbUtil;
 
@@ -23,21 +24,27 @@ public class statis extends JFrame {
     static JButton jButton1 = new JButton("查看最受欢迎图书"); //普通用户登入
     static JButton jButton2 = new JButton("查看读者借阅排行榜"); //管理员登入
     static JButton jButton3 = new JButton("查看各类别图书流通情况");  //退出系统
+    static JButton jButton4 = new JButton("返回");  //退出系统
 
 
-    public statis() {
+    public statis(Admin admin) {
         super("图书管理系统");
-        setBounds(700, 220, 500, 500);
+        setBounds(700, 220, 500, 600);
         setLayout(null);
         panelSet(); //panel
         label1Set(); //登入
         bottonSet();
-        setActionListen();
+        setActionListen(admin);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);  //结束程序
         setVisible(true); //可视化
     }
 
-    public void setActionListen() {
+    public void setActionListen(Admin admin) {
+
+        jButton4.addActionListener(e -> {
+            dispose();
+            new AdminFuntion(admin);
+        });
 
         jButton3.addActionListener(e -> {
             Connection con = null;
@@ -104,11 +111,14 @@ public class statis extends JFrame {
         jButton3.setBounds(150, 340, 200, 40);
         jPanel.add(jButton3);
 
+        jButton4.setBounds(150, 410, 200, 40);
+        jPanel.add(jButton4);
+
     }
 
     public void panelSet() {  //初始化panel
         jPanel.setLayout(null);
-        jPanel.setBounds(0, 0, 500, 500); //大小
+        jPanel.setBounds(0, 0, 500, 600); //大小
         jPanel.setBackground(new Color(255, 255, 255));  //背景颜色
         add(jPanel);
     }
@@ -132,7 +142,7 @@ public class statis extends JFrame {
 
 
     public static void main(String[] args) {
-        new statis();
+        new statis(new Admin());
     }
 
     class MyActionListener implements ActionListener {

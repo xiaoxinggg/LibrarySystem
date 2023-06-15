@@ -207,7 +207,8 @@ public class AdminFuntion extends JFrame {
 
         });
         jButton8.addActionListener(e -> {
-            new statis();
+            dispose();
+            new statis(admin);
         });
     }
 
