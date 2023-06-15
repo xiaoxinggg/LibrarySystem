@@ -51,7 +51,6 @@ public class UserDao implements UserService {
         return false;
     }
 
-
     //普通用户登录
     public NormalUser login(NormalUser normalUser) {
         Connection con = null;
@@ -60,7 +59,7 @@ public class UserDao implements UserService {
         NormalUser user = new NormalUser();
         try {
             con = DbUtil.getConnection();
-            String sql= "select * from normaluser where id=? and password=?";
+            String sql= "select * from normaluser where id=? and password=? and isDelete=0";
             pstmt = con.prepareStatement(sql);
             pstmt.setInt(1, normalUser.getId());
             pstmt.setString(2, normalUser.getPassword());
