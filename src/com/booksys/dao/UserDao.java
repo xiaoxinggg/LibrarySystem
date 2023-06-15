@@ -166,10 +166,11 @@ public class UserDao implements UserService {
             if(((Admin)user).getAdminPassword().equals("666666")) {
                 try {
                     con = DbUtil.getConnection();
-                    String sql = "insert into Admin values(null,?,?)";
+                    String sql = "insert into Admin values(?,?,?,1)";
                     pstmt = con.prepareStatement(sql);
-                    pstmt.setString(1, user.getUserName());
-                    pstmt.setString(2, user.getPassword());
+                    pstmt.setInt(1,user.getId());
+                    pstmt.setString(2, user.getUserName());
+                    pstmt.setString(3, user.getPassword());
                     int ret = pstmt.executeUpdate();
                     if(ret != 1) {
                         return false;

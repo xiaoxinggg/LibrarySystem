@@ -3,9 +3,14 @@ package com.booksys.libinterface.Admin;
 import com.booksys.dao.BookDao;
 import com.booksys.pojo.Admin;
 import com.booksys.pojo.Book;
+import com.booksys.util.DbUtil;
 
 import javax.swing.*;
 import java.awt.*;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 
 public class AddBook extends JFrame {
     static JPanel jPanel;
@@ -26,9 +31,10 @@ public class AddBook extends JFrame {
     static JTextField jTextField5;
     static JComboBox box1;//下拉列表框
     static JComboBox box2;//下拉列表框
+    static String[] cangku={};
 
 
-    public AddBook(Admin admin) {
+    public AddBook(Admin admin, ResultSet resultSet) throws SQLException {
         super("图书管理系统");
         setBounds(500, 120, 1000, 890);
         //设置绝对布局
@@ -44,14 +50,14 @@ public class AddBook extends JFrame {
         label6Set(); //数量
         label7Set(); //选择仓库地址
         label8Set(); //选择类别
-        setActionListen(admin);
-        textSet();
+        setActionListen(admin, resultSet);
+        textSet(resultSet);
 
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setVisible(true);
     }
 
-    public void textSet() {
+    public void textSet(ResultSet resultSet)  throws SQLException {
         jTextField1 = new JTextField();
         jTextField2 = new JTextField();
         jTextField3 = new JTextField();
@@ -69,7 +75,13 @@ public class AddBook extends JFrame {
         jPanel.add(jTextField5);
 
 
-        String[] cangku={"仓库1","仓库2","仓库3","仓库4","仓库5"};
+
+        int i = -1;
+        while (resultSet.next()) {
+            int id = resultSet.getInt("adminId");
+            cangku[++i] = String.valueOf(id);
+        }
+
         //城市
         box1=new JComboBox(cangku);//下拉列表框
         box1.setBounds(320, 620,150,40);
@@ -167,7 +179,7 @@ public class AddBook extends JFrame {
         jPanel.add(jLabel8);
     }
 
-    public void setActionListen(Admin admin) {
+    public void setActionListen(Admin admin, ResultSet resultSet) {
         jButton1.addActionListener(e -> {
             BookDao dao = new BookDao();
             Book book = new Book();
@@ -176,7 +188,7 @@ public class AddBook extends JFrame {
             book.setPrice(Double.parseDouble(jTextField4.getText()));
             book.setAuthor(jTextField3.getText());
             book.setNum(Integer.parseInt(jTextField5.getText()));
-            book.setToWareHorse(box1.getSelectedIndex() + 1);
+            book.setToWareHorse(Integer.parseInt(cangku[box1.getSelectedIndex()]));
             book.setClassq(box2.getSelectedIndex() + 1);
 
             boolean ret = dao.addBook(book); //添加新书
@@ -189,7 +201,11 @@ public class AddBook extends JFrame {
             } else {
                 System.out.println("新增失败");
                 dispose();
-                new AddBook(admin); //重新添加
+                try {
+                    new AddBook(admin, resultSet); //重新添加
+                } catch (SQLException ex) {
+                    ex.printStackTrace();
+                }
             }
 
         });
@@ -200,8 +216,4 @@ public class AddBook extends JFrame {
         });
     }
 
-
-    public static void main(String[] args) {
-        new AddBook(new Admin());
-    }
 }
