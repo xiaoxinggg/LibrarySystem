@@ -117,22 +117,9 @@ public class AdminFuntion extends JFrame {
             new AdminLogin();
         });
         jButton2.addActionListener(e -> {
-            Connection con = null;
-            PreparedStatement pstmt = null;
-            ResultSet resultSet = null;
-            try {
-                con = DbUtil.getConnection();
-                String sql = "select * from warehouse" +
-                        "where warehouse.adminId=?";
-                pstmt.setInt(1, admin.getId());
-                pstmt = con.prepareStatement(sql);
-                resultSet = pstmt.executeQuery();
-                new AddBook(admin, resultSet);
-            } catch (SQLException sqe) {
-                sqe.printStackTrace();
-            } finally {
-                DbUtil.close(resultSet, pstmt, con);
-            }
+
+                new AddBook(admin);
+
 
         });
         jButton3.addActionListener(e -> {

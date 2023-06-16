@@ -31,10 +31,10 @@ public class AddBook extends JFrame {
     static JTextField jTextField5;
     static JComboBox box1;//下拉列表框
     static JComboBox box2;//下拉列表框
-    static String[] cangku={};
+    static String[] cangku={"仓库1","仓库2","仓库3","仓库4","仓库5","仓库6","仓库7","仓库8","仓库9","仓库10"};
 
 
-    public AddBook(Admin admin, ResultSet resultSet) throws SQLException {
+    public AddBook(Admin admin) {
         super("图书管理系统");
         setBounds(500, 120, 1000, 890);
         //设置绝对布局
@@ -50,14 +50,14 @@ public class AddBook extends JFrame {
         label6Set(); //数量
         label7Set(); //选择仓库地址
         label8Set(); //选择类别
-        setActionListen(admin, resultSet);
-        textSet(resultSet);
+        setActionListen(admin);
+        textSet();
 
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setVisible(true);
     }
 
-    public void textSet(ResultSet resultSet)  throws SQLException {
+    public void textSet(){
         jTextField1 = new JTextField();
         jTextField2 = new JTextField();
         jTextField3 = new JTextField();
@@ -74,13 +74,6 @@ public class AddBook extends JFrame {
         jPanel.add(jTextField4);
         jPanel.add(jTextField5);
 
-
-
-        int i = -1;
-        while (resultSet.next()) {
-            int id = resultSet.getInt("adminId");
-            cangku[++i] = String.valueOf(id);
-        }
 
         //城市
         box1=new JComboBox(cangku);//下拉列表框
@@ -179,7 +172,7 @@ public class AddBook extends JFrame {
         jPanel.add(jLabel8);
     }
 
-    public void setActionListen(Admin admin, ResultSet resultSet) {
+    public void setActionListen(Admin admin) {
         jButton1.addActionListener(e -> {
             BookDao dao = new BookDao();
             Book book = new Book();
@@ -201,11 +194,7 @@ public class AddBook extends JFrame {
             } else {
                 System.out.println("新增失败");
                 dispose();
-                try {
-                    new AddBook(admin, resultSet); //重新添加
-                } catch (SQLException ex) {
-                    ex.printStackTrace();
-                }
+                new AddBook(admin); //重新添加
             }
 
         });
